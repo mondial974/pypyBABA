@@ -1,0 +1,31 @@
+packages = ["rich", "colorama", "numpy", "scipy"]
+
+[splashscreen]
+enabled = true
+
+[[fetch]]
+from = "/pyEurocode2"
+files = ["appCorbeaux.py",
+"appPoutreEncocheSurAppui.py",
+"appSemelleFilanteChargeCentree.py",
+"appPoteauRectangulaireCompressionSimple.py",
+"appPoteauCirculaireCompressionSimple.py",
+"appDalle4AppuisArticules.py",
+"appFlexionSimpleSectionRectangulaire.py",
+"appVerificationContrainteELS.py",
+"appPredimSectionRectangulaireFlexionSimple.py",
+"appPoutreVoileBAEL.py",
+"fleche.py",
+"corebielletirant.py",
+"coreconstante.py",
+"coreDCdalle.py",
+"coreDCpoutre.py",
+"appEffortTranchant.py",
+"corematacierarmature.py",
+"corematbetonarme.py",
+"coreNF294.py",
+"coresituationprojet.py",
+"pyec6maconnerie.py",
+"pyec14vent.py",
+"utilsmath.py",
+"utilsprint.py"]

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link href="main.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script> 
+       $(function(){
+          $('.header').load("menu.html"); 
+       });
+    </script>
+    <py-config src="./custom_py-config.toml"></py-config>  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5016294878022454"
+     crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <div class="header"></div>
+      <h1>Vitesse de vent et pression dynamique</h1>
+
+      <div class="container">
+
+        <div class="itemdonnee">
+          <h2>Saisie donnée</h2>
+          <label for="region_vent">Région climatique</label>
+          <select name="region_vent" id="region_vent">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="Guadeloupe">Guadeloupe</option>
+            <option value="Guyanne">Guyanne</option>
+            <option value="Martinique">Martinique</option>
+            <option value="Mayotte">Mayotte</option>
+            <option value="Réunion" selected>Réunion</option>
+          </select><br>
+
+          <label for="categorie_terrain">Catégorie de terrain</label>
+          <select name="categorie_terrain" id="categorie_terrain">
+            <option value="0">0</option>
+            <option value="II" selected>II</option>
+            <option value="IIIa" >IIIa</option>
+            <option value="IIIb">IIIb</option>
+            <option value="IV">IV</option>
+          </select><br>
+
+          <label for="cdir">Coefficient de direction c_dir</label><input type="number" id="cdir" value="1"/><span>&ensp; (-)</span><br>
+          <label for="cseason">Coefficient de saison c_season</label><input type='number' id="cseason" value="1"/><span>&ensp; (-)</span><br>
+          <label for="co">Coefficient d'orographie c_o</label><input type="number" id="co" value="1"/><span>&ensp; (-)</span><br/><br>
+
+          Cas orographique
+          <select name="cas_orogrophique" id="cas_orographique">
+            <option value="Cas 1" selected>Cas 1  : obstacles de hauteurs et formes variées</option>
+            <option value="Cas 2">Cas 2 : obstacles bien individualisés</option>
+          </select><br>
+
+          <label for="h">Hauteur de la construction</label><input type="number" id="h" value="10"/><span>&ensp; (m)</span><br>
+          <label for="ze">Hauteur de référence du vent ze</label><input type="number" id="ze" value="10"/><span>&ensp; (m)</span><br>
+        </div>
+      
+
+        <div class="itemresultat">
+          <h2>Résultats</h2>
+          <button id="btn-resultat" py-click="resultat_court()">Court</button>
+          <button id="btn-resultat" py-click="resultat_long()">Long</button>
+          <py-script src="./VitesseVentPressionDynamique1.py"></py-script> 
+          <div id="resultat"></div> 
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
