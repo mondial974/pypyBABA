@@ -4,26 +4,24 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <link href="main.css" rel="stylesheet" type="text/css">
+    <link href="/main.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script> 
        $(function(){
-          $(".header").load("menu.html"); 
+          $(".header").load("/menu.html"); 
        });
     </script>
-    <py-config src="./custom_py-config.toml"></py-config>
-    <script async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5016294878022454"
-      crossorigin="anonymous"></script>
+    <py-config src="/custom_py-config.toml"></py-config>
+    
   </head>
 
   <body>
     <div class="header"></div>
-    <h1>Poteau circulaire en compression simple</h1><br />
+    <h1>Vérification des contraintes ELS</h1><br />
+
     <div class="container">
       <div class="itemdonnee">
-        <h2>Saisie donnée</h2>
-          <label for="repere">Repère élément</label><input type="text" id="repere" value /><br /><br />
+        <h2>Saisie donnée</h2><br />
 
         <h2>Situation de projet</h2>
         <label for="situation_projet">Situation de projet</label>
@@ -63,31 +61,37 @@
           <option value="S400C">S400C</option>
         </select><br /><br />
 
-        <h2>Géométrie</h2>
-        <label for="d">Diamètre</label><input type="number" id="d" value="50" /><span>&ensp;
-          cm</span><br />
-        <label for="c">Enrobage c</label><input type="number" id="c" value="5" /><span>&ensp;
-          cm</span><br /><br />
-        <label for="l">Longueur</label><input type="number" id="l" value="300" /><span>&ensp;
-          cm</span><br /><br />
-        <label for="kf">Coefficient de flambement</label><input type="number"
-          id="kf" value="1" /><span>&ensp; -</span><br /><br />
+        <h2>Sollicitation</h2>
+        <label for="Mser">Moment ELS Mser</label><input type="number" id="Mser"
+          value="3.227" /><span>&ensp; T.m</span><br /><br />
 
-        <h2>Sollicitations</h2>
-        <label for="NEd">Effort normal sollicitant</label><input type="number"
-          id="NEd" value="70" /><span>&ensp; T</span><br />
+        <h2>Géométrie de la poutre</h2>
+        <label for="bw">Largeur de l'ame de la poutre</label><input
+          type="number" id="bw" value="18" /><span>&ensp; cm</span><br />
+        <label for="beff">Largeur de la table</label><input type="number"
+          id="beff" value="18" /><span>&ensp; cm</span><br />
+        <label for="h">Hauteur totale</label><input type="number" id="h"
+          value="60" /><span>&ensp; cm</span><br />
+        <label for="hf">Hauteur de la table</label><input type="number" id="hf"
+          value="0" /><span>&ensp; cm</span><br />
+        <label for="c1">Enrobage bas</label><input type="number" id="c1"
+          value="5" /><span>&ensp; cm</span><br />
+        <label for="c2">Enrobage haut</label><input type="number" id="c2"
+          value="5" /><span>&ensp; cm</span><br /><br />
 
         <h2>Armatures</h2>
-        <label for="Asl">Armatures longitudinales</label><input type="number"
-          id="Asl" value="0" /><span>&ensp; cm2</span><br />
+        <label for="As1">Armatures inférieures As1</label><input type="number"
+          id="As1" value="1.65" /><span>&ensp; cm2</span><br />
+        <label for="As2">Armatures supérieures As2</label><input type="number"
+          id="As2" value="0" /><span>&ensp; cm2</span><br />
+
       </div>
 
       <div class="itemresultat">
         <h2>Résultats</h2>
-        <button id="btn-resultat" py-click="resultat_court()">Court</button>
-        <button id="btn-resultat" py-click="resultat_long()">Long</button>
-        <button id="btn-resultat" py-click="minute()">Minute</button><br />
-        <py-script src="./PoteauCirculaireCompressionSimple.py"></py-script>
+        <!-- <button id="btn-resultat" py-click="resultat_court()">Court</button> -->
+        <button id="btn-resultat" py-click="resultat_long()">Long</button><br><br>
+        <py-script src="/pyscript/VerificationContrainte1.py"></py-script>
         <div id="resultat"></div>
       </div>
     </div>

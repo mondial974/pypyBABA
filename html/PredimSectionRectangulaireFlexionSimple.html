@@ -4,17 +4,15 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
         <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-        <link href="main.css" rel="stylesheet" type="text/css">
+        <link href="/main.css" rel="stylesheet" type="text/css">
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <script> 
        $(function(){
-          $(".header").load("menu.html"); 
+          $(".header").load("/menu.html"); 
        });
     </script>
-        <py-config src="./custom_py-config.toml"></py-config>
-        <script async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5016294878022454"
-            crossorigin="anonymous"></script>
+        <py-config src="/custom_py-config.toml"></py-config>
+        
     </head>
 
     <body>
@@ -41,7 +39,7 @@
                 <h2>Résultats</h2>
                 <button id="btn-resultat" py-click="resultat_court()">Court</button>
                 <button id="btn-resultat" py-click="resultat_long()">Long</button><br><br>
-                <py-script src="./PredimSectionRectangulaireFlexionSimple.py"></py-script>
+                <py-script src="/pyscript/PredimSectionRectangulaireFlexionSimple.py"></py-script>
                 <div id="resultat"></div>
             </div>
         </div>

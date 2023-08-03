@@ -4,33 +4,23 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <link href="main.css" rel="stylesheet" type="text/css">
+    <link href="/main.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script> 
        $(function(){
-          $(".header").load("menu.html"); 
+          $(".header").load("/menu.html"); 
        });
     </script>
-    <py-config src="./custom_py-config.toml"></py-config>
-    <script async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5016294878022454"
-      crossorigin="anonymous"></script>
+    <py-config src="/custom_py-config.toml"></py-config>
+    
   </head>
 
   <body>
     <div class="header"></div>
-    <h1>Dalle sur 4 appuis articulés</h1><br />
-
+    <h1>Poutre - Sections minimale et maximale d'armatures longitudinales</h1><br />
     <div class="container">
       <div class="itemdonnee">
         <h2>Saisie donnée</h2><br />
-
-        <h2>Situation de projet</h2>
-        <label for="situation_projet">Situation de projet</label>
-        <select name="situation_projet" id="situation_projet">
-          <option value="Durable" selected>Durable</option>
-          <option value="Accidentelle">Accidentelle</option>
-        </select><br /><br />
 
         <h2>Béton</h2>
         <label for="classe_resistance">Classe de résistance</label>
@@ -57,38 +47,25 @@
           <option value="S500A" selected>S500A</option>
           <option value="S500B">S500B</option>
           <option value="S500C">S500C</option>
-          <option value="-----">-----</option>
+          <option disabled value="-----">-----</option>
           <option value="S400A">S400A</option>
           <option value="S400B">S400B</option>
           <option value="S400C">S400C</option>
         </select><br /><br />
 
-        <h2>Chargement uniformément répartie</h2>
-        <label for="G">Charge permanente (hors poids propre plancher) G</label><input
-          type="number" id="G" value="0" /><span>&ensp; daN/m2</span><br />
-        <label for="Q">Charge d"exploitation Q</label><input type="number"
-          id="Q" value="0" /><span>&ensp; daN/m2</span><br />
-        <label for="AC">Charge permanente après cloison AC</label><input
-          type="number" id="AC" value="0" /><span>&ensp; daN/m2</span><br /><br />
-
         <h2>Géométrie</h2>
-        <label for="lx">Petit coté lx</label><input type="number" id="lx"
+        <label for="bw">Largeur poutre bw</label><input type="number" id="bw"
           value="0" /><span>&ensp; cm</span><br />
-        <label for="ly">Grand coté ly</label><input type="number" id="ly"
+        <label for="h">Hauteur poutre h</label><input type="number" id="h"
           value="0" /><span>&ensp; cm</span><br />
-        <label for="h">Epaisseur</label><input type="number" id="h" value="0" /><span>&ensp;
-          cm</span><br />
-        <label for="c">Enrobage</label><input type="number" id="c" value="3"
-          step="0.5" /><span>&ensp; cm</span><br />
-
+        <label for="c">Enrobage c</label><input type="number" id="c" value="0" /><span>&ensp;
+          cm</span><br /><br />
       </div>
 
       <div class="itemresultat">
         <h2>Résultats</h2>
-        <button id="btn-resultat" py-click="resultat_court()">Court</button>
-        <button id="btn-resultat" py-click="resultat_long()">Long</button>
-        <button id="btn-resultat" py-click="minute()">Minute</button><br><br>
-        <py-script src="./Dalle4AppuisArticules.py"></py-script>
+        <button id="btn-resultat" py-click="resultat_long()">Long</button><br><br>
+        <py-script src="/pyscript/PoutreAsminAsmax.py"></py-script>
         <div id="resultat"></div>
       </div>
     </div>
