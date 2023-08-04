@@ -4,7 +4,7 @@ packages = ["numpy", "scipy","rich","colorama"]
 enabled = true
 
 [[fetch]]
-from = "./pyEurocode2"
+from = "/pyEurocode2"
 files = ["appCorbeaux.py",
 "appPoutreEncocheSurAppui.py",
 "appSemelleFilanteChargeCentree.py",
