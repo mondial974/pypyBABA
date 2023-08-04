@@ -1,10 +1,10 @@
-packages = ["rich", "colorama", "numpy", "scipy"]
+packages = ["numpy", "scipy","rich","colorama"]
 
 [splashscreen]
 enabled = true
 
 [[fetch]]
-from = "/pyEurocode2"
+from = "./pyEurocode2"
 files = ["appCorbeaux.py",
 "appPoutreEncocheSurAppui.py",
 "appSemelleFilanteChargeCentree.py",
