@@ -4,22 +4,21 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <link href="main.css" rel="stylesheet" type="text/css">
+    <link href="/main.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script> 
        $(function(){
-          $(".header").load("menu.html"); 
+          $(".header").load("/menu.html"); 
        });
     </script>
-    <py-config src="./custom_py-config.toml"></py-config>
-    <script async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5016294878022454"
-      crossorigin="anonymous"></script>
+    <py-config src="/custom_py-config.toml"></py-config>
+    
   </head>
 
   <body>
     <div class="header"></div>
-    <h1>Poutre - Effort tranchant</h1><br />
+    <h1>Dalle sur 4 appuis articulés</h1><br />
+
     <div class="container">
       <div class="itemdonnee">
         <h2>Saisie donnée</h2><br />
@@ -56,49 +55,38 @@
           <option value="S500A" selected>S500A</option>
           <option value="S500B">S500B</option>
           <option value="S500C">S500C</option>
-          <option value="-----" disabled>-----</option>
+          <option value="-----">-----</option>
           <option value="S400A">S400A</option>
           <option value="S400B">S400B</option>
           <option value="S400C">S400C</option>
         </select><br /><br />
 
+        <h2>Chargement uniformément répartie</h2>
+        <label for="G">Charge permanente (hors poids propre plancher) G</label><input
+          type="number" id="G" value="0" /><span>&ensp; daN/m2</span><br />
+        <label for="Q">Charge d"exploitation Q</label><input type="number"
+          id="Q" value="0" /><span>&ensp; daN/m2</span><br />
+        <label for="AC">Charge permanente après cloison AC</label><input
+          type="number" id="AC" value="0" /><span>&ensp; daN/m2</span><br /><br />
+
         <h2>Géométrie</h2>
-        <label for="bw">Largeur</label><input type="number" id="bw" value="75" /><span>&ensp;
+        <label for="lx">Petit coté lx</label><input type="number" id="lx"
+          value="0" /><span>&ensp; cm</span><br />
+        <label for="ly">Grand coté ly</label><input type="number" id="ly"
+          value="0" /><span>&ensp; cm</span><br />
+        <label for="h">Epaisseur</label><input type="number" id="h" value="0" /><span>&ensp;
           cm</span><br />
-        <label for="h">Hauteur</label><input type="number" id="h" value="205" /><span>&ensp;
-          cm</span><br />
-        <label for="c1">Enrobage</label><input type="number" id="c1" value="20" /><span>&ensp;
-          cm</span><br /><br />
-
-        <h2>Sollicitations</h2>
-        <label for="VEdmax">Effort tranchant maximal</label><input type="number"
-          id="VEdmax" value="427.7" /><span>&ensp; T</span><br />
-        <label for="VEdred">Effort tranchant réduit</label><input type="number"
-          id="VEdred" value="396.6" /><span>&ensp; T</span><br />
-        <label for="NEd">Effort de compression</label><input type="number"
-          id="NEd" value="0" /><span>&ensp; T</span><br /><br />
-
-        <h2>Armatures longitudinales</h2>
-        <label for="Asl">Armatures longitudinales</label><input type="number"
-          id="Asl" value="104.52" /><span>&ensp; cm2</span><br /><br />
-
-        <h2>Armatures transversales</h2>
-        <label for="Asw">Armatures transversales</label><input type="number"
-          id="Asw" value="9.04" /><span>&ensp; cm2</span><br />
-        <label for="s">Espacement </label><input type="number" id="s" value="25" /><span>&ensp;
-          cm</span><br />
-        <label for="alpha">Inclinaison armatures</label><input type="number"
-          id="alpha" value="45" /><span>&ensp; deg</span><br />
-        <label for="teta">Inclinaison des bielles</label><input type="number"
-          id="teta" value="26.56" /><span>&ensp; deg</span><br />
+        <label for="c">Enrobage</label><input type="number" id="c" value="3"
+          step="0.5" /><span>&ensp; cm</span><br />
 
       </div>
 
       <div class="itemresultat">
         <h2>Résultats</h2>
         <button id="btn-resultat" py-click="resultat_court()">Court</button>
-        <button id="btn-resultat" py-click="resultat_long()">Long</button><br /><br />
-        <py-script src="./Poutres_EffortTranchant.py"></py-script>
+        <button id="btn-resultat" py-click="resultat_long()">Long</button>
+        <button id="btn-resultat" py-click="minute()">Minute</button><br><br>
+        <py-script src="/pyscript/Dalle4AppuisArticules.py"></py-script>
         <div id="resultat"></div>
       </div>
     </div>
