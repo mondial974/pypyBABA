@@ -1,4 +1,4 @@
-packages = ["numpy", "scipy","rich","colorama"]
+packages = ["rich", "colorama", "numpy", "scipy"]
 
 [splashscreen]
 enabled = true
@@ -12,6 +12,7 @@ files = ["appCorbeaux.py",
 "appPoteauCirculaireCompressionSimple.py",
 "appDalle4AppuisArticules.py",
 "appFlexionSimpleSectionRectangulaire.py",
+"appPorteeUtilePoutreDalle.py",
 "appVerificationContrainteELS.py",
 "appPredimSectionRectangulaireFlexionSimple.py",
 "appPoutreVoileBAEL.py",
@@ -28,4 +29,5 @@ files = ["appCorbeaux.py",
 "pyec6maconnerie.py",
 "pyec14vent.py",
 "utilsmath.py",
-"utilsprint.py"]
+"utilsprint.py",
+"appVoileDrapeau1.py"]

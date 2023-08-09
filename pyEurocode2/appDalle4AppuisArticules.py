@@ -368,6 +368,8 @@ class Dalle4AppuisArticules:
         printfintab()
     
     def resultat_court(self):
+        printligne("    Petit coté : portée de calcul", "lx", "cm", f"{self.lx*100:.0f}")
+        printligne("    Grand coté : portée de calcul", "ly", "cm", f"{self.ly*100:.0f}")
         printligne("    Rapport des portées", "lx/ly", "-", f"{self.a():.2f}")
         print("")
         print("Armatures")

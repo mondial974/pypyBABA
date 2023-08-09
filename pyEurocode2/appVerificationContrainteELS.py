@@ -5,6 +5,7 @@ from corematacierarmature import *
 
 
 class VerifContrainteELSSectionRectangulaire:
+
     def __init__(self, beton, acier, Mser, bw, beff, h, hf, c1, c2, As1, As2):
         self.beton = beton
         self.acier = acier
@@ -18,9 +19,10 @@ class VerifContrainteELSSectionRectangulaire:
         self.As1 = As1
         self.As2 = As2
 
-    ###############################################################################
-    # Définition des is
-    ###############################################################################
+
+###############################################################################
+# Définition des is
+###############################################################################
 
     def isSectionTe(self):
         if beff > self.bw:
@@ -52,19 +54,19 @@ class VerifContrainteELSSectionRectangulaire:
     #     else:
     #         return False
 
-    ###############################################################################
-    # Caractéristique géométrique commune section rectangulaire et Té
-    ###############################################################################
+###############################################################################
+# Caractéristique géométrique commune section rectangulaire et Té
+###############################################################################
     def d(self):
         return self.h - self.c1
 
     def dprime(self):
         return self.c2
 
-    ###############################################################################
-    # Caractéristique géométrique section rectangulaire
-    ###############################################################################
-    #   SECTION RECTANGULAIRE
+###############################################################################
+# Caractéristique géométrique section rectangulaire
+###############################################################################
+#   SECTION RECTANGULAIRE
     def Ach_rect(self):
         bw = self.bw
         h = self.h
@@ -87,7 +89,7 @@ class VerifContrainteELSSectionRectangulaire:
     def v_rect(self):
         return self.h - self.vprime_rect()
 
-    #   SECTION EN TE
+#   SECTION EN TE
     def Ach_te(self):
         bw = self.bw
         beff = self.beff
@@ -109,17 +111,16 @@ class VerifContrainteELSSectionRectangulaire:
         Ach = self.Ach_te()
         As1 = self.As1
         As2 = self.As2
-        return (
-            bw * h**2 / 2 + (beff - bw) * hf**2 / 2 + ae * (As1 * d + As2 * dprime)
-        ) / Ach
+        return (bw * h**2 / 2 + (beff - bw) * hf**2 / 2 + ae * (As1 * d + As2 * dprime)) / Ach
 
     def v_te(self):
         return self.h - self.vprime_te()
 
-    ###############################################################################
-    # Contrainte dans la section rectangulaire et en Té non fissurée
-    ###############################################################################
-    #   SECTION RECTANGULAIRE
+
+###############################################################################
+# Contrainte dans la section rectangulaire et en Té non fissurée
+###############################################################################
+#   SECTION RECTANGULAIRE
 
     def Ich_rect(self):
         bw = self.bw
@@ -131,11 +132,7 @@ class VerifContrainteELSSectionRectangulaire:
         Ach = self.Ach_rect()
         As1 = self.As1
         As2 = self.As2
-        return (
-            (bw * h**3.0) / 3.0
-            + ae * (As1 * d**2.0 + As2 * dprime**2.0)
-            - Ach * vprime**2.0
-        )
+        return (bw * h**3.) / 3. + ae * (As1 * d**2. + As2 * dprime**2.) - Ach * vprime**2.
 
     def Sct_rect_nonfissuree(self):
         Mser = self.Mser
@@ -168,7 +165,7 @@ class VerifContrainteELSSectionRectangulaire:
             Ich = self.Ich_rect()
             return ae * Mser * (vprime - dprime) / Ich
 
-    #   SECTION EN TE
+#   SECTION EN TE
     def Ich_te(self):
         bw = self.bw
         h = self.h
@@ -180,12 +177,7 @@ class VerifContrainteELSSectionRectangulaire:
         Ach = self.Ach_te()
         As1 = self.As1
         As2 = self.As2
-        return (
-            bw * h**3 / 3
-            + (beff - bw) * hf**3
-            + ae * (As1 * d**2 + As2 * dprime**2)
-            - Ach * vprime**2
-        )
+        return bw * h**3 / 3 + (beff - bw) * hf**3 + ae * (As1 * d**2 + As2 * dprime**2) - Ach * vprime**2
 
     def Sct_te_nonfissuree(self):
         Mser = self.Mser
@@ -218,10 +210,11 @@ class VerifContrainteELSSectionRectangulaire:
             Ich = self.Ich_te()
             return ae * Mser * (vprime - dprime) / Ich
 
-    ###############################################################################
-    # Contrainte dans la section rectangulaire et Té fissurée
-    ###############################################################################
-    #   SECTION RECTANGULAIRE
+
+###############################################################################
+# Contrainte dans la section rectangulaire et Té fissurée
+###############################################################################
+#   SECTION RECTANGULAIRE
 
     def x1_rect(self):
         bw = self.bw
@@ -233,7 +226,7 @@ class VerifContrainteELSSectionRectangulaire:
 
         a = bw / 2
         b = ae * (As1 + As2)
-        c = -ae * (As1 * d + As2 * dprime)
+        c = - ae * (As1 * d + As2 * dprime)
 
         return racinepolynome2(a, b, c, 1)
 
@@ -245,9 +238,7 @@ class VerifContrainteELSSectionRectangulaire:
         dprime = self.dprime()
         As1 = self.As1
         As2 = self.As2
-        return (
-            bw * x1**3 / 3 + ae * As2 * (x1 - dprime) ** 2 + ae * As1 * (d - x1) ** 2
-        )
+        return bw * x1**3 / 3 + ae * As2 * (x1 - dprime)**2 + ae * As1 * (d - x1)**2
 
     def Sc_rect_fissuree(self):
         Mser = self.Mser
@@ -274,7 +265,7 @@ class VerifContrainteELSSectionRectangulaire:
             x1 = self.x1_rect()
             return ae * Mser / Icf * (x1 - dprime)
 
-    #   SECTION EN TE
+#   SECTION EN TE
     def fhf(self):
         beff = self.beff
         hf = self.hf
@@ -283,9 +274,7 @@ class VerifContrainteELSSectionRectangulaire:
         As2 = self.As2
         d = self.d()
         dprime = self.dprime()
-        return (
-            beff * hf**2 / 2 + ae * (As1 + As2) * hf - ae * (As1 * d + As2 * dprime)
-        )
+        return beff * hf**2 / 2 + ae * (As1 + As2) * hf - ae * (As1 * d + As2 * dprime)
 
     def x1_te(self):
         if self.isANDansTable():
@@ -298,7 +287,7 @@ class VerifContrainteELSSectionRectangulaire:
             As2 = self.As2
             a = bw / 2
             b = ae * (As1 + As2)
-            c = -ae * (As1 * d + As2 * dprime)
+            c = - ae * (As1 * d + As2 * dprime)
             return racinepolynome2(a, b, c, 1)
         else:
             # Calcul section en Te
@@ -312,7 +301,7 @@ class VerifContrainteELSSectionRectangulaire:
             As2 = self.As2
             a = bw / 2
             b = (beff - bw) * hf + ae * (As1 + As2)
-            c = -((beff - bw) * hf**2 / 2 + ae * (As1 * d + As2 * dprime))
+            c = - ((beff - bw) * hf**2 / 2 + ae * (As1 * d + As2 * dprime))
             return racinepolynome2(a, b, c, 1)
 
     def Icf_te(self):
@@ -325,11 +314,7 @@ class VerifContrainteELSSectionRectangulaire:
             dprime = self.dprime()
             As1 = self.As1
             As2 = self.As2
-            return (
-                bw * x1**3 / 3
-                + ae * As2 * (x1 - dprime) ** 2
-                + ae * As1 * (d - x1) ** 2
-            )
+            return bw * x1**3 / 3 + ae * As2 * (x1 - dprime)**2 + ae * As1 * (d - x1)**2
         else:
             # Calcul section en Te
             bw = self.bw
@@ -341,12 +326,8 @@ class VerifContrainteELSSectionRectangulaire:
             dprime = self.dprime()
             As1 = self.As1
             As2 = self.As2
-            return (
-                beff * x1**3 / 3
-                - (beff - bw) * (x1 - hf) ** 3 / 3
-                + ae * As2 * (x1 - dprime) ** 2
-                + ae * As1 * (d - x1) ** 2
-            )
+            return beff * x1**3 / 3 - (beff - bw) * (x1 - hf)**3 / 3 \
+                + ae * As2 * (x1 - dprime)**2 + ae * As1 * (d - x1)**2
 
     def Sc_te_fissuree(self):
         Mser = self.Mser
@@ -373,9 +354,9 @@ class VerifContrainteELSSectionRectangulaire:
             x1 = self.x1_te()
             return ae * Mser / Icf * (x1 - dprime)
 
-    ###############################################################################
-    # Fonctions d'affichage des résultats
-    ###############################################################################
+###############################################################################
+# Fonctions d'affichage des résultats
+###############################################################################
     def resultat_long(self):
         if self.isSectionRect():
             self.resultat_long_rect()
@@ -384,7 +365,8 @@ class VerifContrainteELSSectionRectangulaire:
 
     def resultat_long_rect(self):
         printentete()
-        printligne("Section Rectangualire ?", "-", "-", f"{self.isSectionRect()}")
+        printligne("Section Rectangualire ?", "-",
+                   "-", f"{self.isSectionRect()}")
         print("Caractéristique géométrique")
         printligne("-", "Ach", "cm2", f"{self.Ach_rect()*1e4:.2f}")
         printligne("-", "v", "cm", f"{self.vprime_rect()*100:.2f}")
@@ -419,7 +401,7 @@ class VerifContrainteELSSectionRectangulaire:
         printligne("-", "Ss2", "MPa", f"{self.Ss2_te_nonfissuree():.2f}")
         print("Section fissurée")
         printligne("-", "x1", "cm", f"{self.x1_te()*100:.2f}")
-        printligne("-", "Icf", "cm4", f"{self.Icf_te():.8f}")
+        printligne("-", "Icf", "-", f"{self.Icf_te():.8f}")
         printligne("-", "Sc", "MPa", f"{self.Sc_te_fissuree():.2f}")
         printligne("-", "Ss1", "MPa", f"{self.Ss1_te_fissuree():.2f}")
         printligne("-", "Ss2", "MPa", f"{self.Ss2_te_fissuree():.2f}")
@@ -444,17 +426,8 @@ if __name__ == "__main__":
     classeciment = "N"
     ae = 15
     fiinft0 = 2
-    beton = BetonArme(
-        situation,
-        classeexposition,
-        classeresistance,
-        acc,
-        act,
-        age,
-        classeciment,
-        ae,
-        fiinft0,
-    )
+    beton = BetonArme(situation, classeexposition, classeresistance,
+                      acc, act, age, classeciment, ae, fiinft0)
 
     nuance = "S500A"
     diagramme = "Palier horizontal"
@@ -471,6 +444,5 @@ if __name__ == "__main__":
     As1 = 1.65 / 1e4
     As2 = 0 / 1e4
     vc = VerifContrainteELSSectionRectangulaire(
-        beton, acier, Mser, bw, beff, h, hf, c1, c2, As1, As2
-    )
+        beton, acier, Mser, bw, beff, h, hf, c1, c2, As1, As2)
     vc.resultat_long()

@@ -12,8 +12,7 @@ RHO_BETON_ARME = 2500
 
 class BetonArme:
 
-    def __init__(self, situation, classeexposition='XC3', classeresistance='C25/30',
-                 acc=1, act=1, age=28, classeciment='N', ae=0, fiinft0=2):
+    def __init__(self, situation, classeexposition='XC3', classeresistance='C25/30', acc=1, act=1, age=28, classeciment='N', ae=0, fiinft0=2):
         self.situation = situation
         self.classeexposition = classeexposition
         self.classeresistance = classeresistance
@@ -172,7 +171,7 @@ class BetonArme:
         tableau.add_row("", "acc", f"{self.acc}", "-")
         tableau.add_row("", "act", f"{self.act}", "-")
         tableau.add_row("", "gc", f"{self.gc}", "-")
-        tableau.add_row("Résistance de calcul en compression", "fctd", f"{self.fcd():.2f}", "MPa")
+        tableau.add_row("Résistance de calcul en compression", "fcd", f"{self.fcd():.2f}", "MPa")
         tableau.add_row("Résistance de calcul en traction", "fctd", f"{self.fctd():.2f}", "MPa")
         console = Console()
         console.print(tableau)
