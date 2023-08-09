@@ -15,6 +15,7 @@ class AcierArmature:
         self.nuance = nuance
         self.diagramme = diagramme
         self.diametre = diametre / 1000
+        self.gs = self.situation.gs()
 
 
 ###############################################################################

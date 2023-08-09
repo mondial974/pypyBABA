@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <link href="/main.css" rel="stylesheet" type="text/css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script> 
        $(function(){
-          $(".header").load("/menu.html"); 
+          $(".header").load("/html/menu.html"); 
        });
     </script>
-    <py-config src="/custom_py-config.toml"></py-config>
-    
+    <py-config src="/toml/custom_py-config.toml"></py-config>
+
   </head>
 
   <body>
@@ -62,22 +62,41 @@
         </select><br /><br />
 
         <h2>Chargement uniformément répartie</h2>
-        <label for="G">Charge permanente (hors poids propre plancher) G</label><input
-          type="number" id="G" value="0" /><span>&ensp; daN/m2</span><br />
-        <label for="Q">Charge d"exploitation Q</label><input type="number"
-          id="Q" value="0" /><span>&ensp; daN/m2</span><br />
-        <label for="AC">Charge permanente après cloison AC</label><input
-          type="number" id="AC" value="0" /><span>&ensp; daN/m2</span><br /><br />
+        <label for="G">Charge permanente (hors poids propre plancher) G</label><input type="number" id="G" value="754" /><span>&ensp; daN/m2</span><br />
+        <label for="Q">Charge d'exploitation Q</label><input type="number" id="Q" value="500" /><span>&ensp; daN/m2</span><br />
+        <label for="AC">Charge permanente après cloison AC</label><input type="number" id="AC" value="0" /><span>&ensp; daN/m2</span><br /><br />
 
         <h2>Géométrie</h2>
-        <label for="lx">Petit coté lx</label><input type="number" id="lx"
-          value="0" /><span>&ensp; cm</span><br />
-        <label for="ly">Grand coté ly</label><input type="number" id="ly"
-          value="0" /><span>&ensp; cm</span><br />
-        <label for="h">Epaisseur</label><input type="number" id="h" value="0" /><span>&ensp;
-          cm</span><br />
-        <label for="c">Enrobage</label><input type="number" id="c" value="3"
-          step="0.5" /><span>&ensp; cm</span><br />
+        <label for="lnx">Petit coté - Longueur entre nu lnx</label><input type="number" id="lnx" value="334" /><span>&ensp; cm</span><br />
+        <label for="agx">Largeur appui gauche</label><input type="number" id="agx" value="18" /><span>&ensp; cm</span><br />
+        <label for="adx">Largeur appui droit</label><input type="number" id="adx" value="50" /><span>&ensp; cm</span><br />
+        
+        <label for="typeAppuisx">Type d'appuis</label>
+        <select name="typeAppuisx" id="typeAppuisx">
+          <option value="Isostatique" selected>Isostatique</option>
+          <option value="Continu">Continu</option>
+          <option value="Encastrement">Encastrement parfait</option>
+          <option value="Appareil d'appuis">Appareil d'appuis</option>
+          <option value="Console">Console</option>
+        </select><br />
+        <span>-----</span><br />
+
+        <label for="lny">Grand coté - Longueur entre nu lny</label><input type="number" id="lny" value="464" /><span>&ensp; cm</span><br />
+        <label for="agy">Largeur appui gauche</label><input type="number" id="agy" value="25" /><span>&ensp; cm</span><br />
+        <label for="ady">Largeur appui droit</label><input type="number" id="ady" value="50" /><span>&ensp; cm</span><br />
+        
+        <label for="typeAppuisy">Type d'appuis</label>
+        <select name="typeAppuisy" id="typeAppuisy">
+          <option value="Isostatique" selected>Isostatique</option>
+          <option value="Continu">Continu</option>
+          <option value="Encastrement">Encastrement parfait</option>
+          <option value="Appareil d'appuis">Appareil d'appuis</option>
+          <option value="Console">Console</option>
+        </select><br />
+        <span>-----</span><br />
+        
+        <label for="h">Epaisseur</label><input type="number" id="h" value="22" /><span>&ensp; cm</span><br />
+        <label for="c">Enrobage</label><input type="number" id="c" value="3" step="0.5" /><span>&ensp; cm</span><br />
 
       </div>
 
