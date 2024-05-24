@@ -43,7 +43,7 @@ class VoileDrapeau1:
         printfintab()
         # print("")
         print("Béton")
-        printligne("Classe de résistance", "-", "-", f"{self.beton.classeresistance}")
+        printligne("Classe de résistance", "-", "-", f"{self.beton.classe_resistance}")
         printligne("Résistance caractéritique en compression", "fck", "Mpa", f"{self.beton.fck()}")    
         printligne("Résistance de calcul en compression", "fcd", "Mpa", f"{self.beton.fck()}")   
         printligne("Coefficient de sécurité", "γc", "-", f"{self.beton.gamma_c}")   
