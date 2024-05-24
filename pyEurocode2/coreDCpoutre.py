@@ -14,7 +14,7 @@ class DCPoutreRectangulaire:
     def d(self):
         return self.h - self.c
     
-    def Asmin1(self):
+    def Asmin(self):
         fctm = self.beton.fctm()
         fyk = self.acier.fyk()
         bw = self.bw
