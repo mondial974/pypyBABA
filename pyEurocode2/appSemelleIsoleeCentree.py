@@ -1,3 +1,5 @@
+# non utilisable en l'état
+
 #from colorama import Fore, Style
 from rich.table import Table
 from rich.console import Console
@@ -236,5 +238,5 @@ if __name__ == "__main__":
     diagramme = "Palier horizontal"
     diametre = 8
     acier = AcierArmature(situation, nuance, diagramme, diametre)
-    sf = SemelleFilante(acier, Nu, Nser, SsolELS, SsolELU, Bmur, c1, Bsem, Hsem, As1) 
+    sf = SemelleIsolee(beton, acier, Nu, Nser, SsolELS, SsolELU, Bpot, Hpot, Asem, Bsem, Hsem, enr, AsAsem, AsBsem) 
     sf.resultat_long()
