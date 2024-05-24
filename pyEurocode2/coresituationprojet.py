@@ -1,9 +1,6 @@
 from rich.table import Table
 from rich.console import Console
-
-DICT_GAMMA_C = {'Durable': 1.5, 'Accidentelle': 1.2}
-
-DICT_GAMMA_S = {'Durable': 1.15, 'Accidentelle': 1.}
+from coreconstante import *
 
 class SituationProjet:
 

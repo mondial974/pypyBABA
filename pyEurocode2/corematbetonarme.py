@@ -10,7 +10,9 @@ from utilsprint import *
 
 class BetonArme:
 
-    def __init__(self, situation, classe_exposition='XC3', classe_resistance='C25/30', alpha_cc=1, alpha_ct=1, age=28, classe_ciment='N', _alpha_e=0, fi_infini_t0=2):
+    def __init__(self, situation, classe_exposition='XC3', classe_resistance='C25/30', alpha_cc=1, alpha_ct=1, age=28, classe_ciment='N', _alpha_e=0, fi_infini_t0=2,
+                 h=0, maitrise_fissuration=True):
+        
         self.situation = situation
         self.classe_exposition = classe_exposition
         self.classe_resistance = classe_resistance
@@ -21,6 +23,8 @@ class BetonArme:
         self.classe_ciment = classe_ciment
         self._alpha_e = _alpha_e
         self.fi_infini_t0 = fi_infini_t0
+        self.h = h
+        self.maitrise_fissuration = maitrise_fissuration
 
     def fck(self):
         classe_resistance = self.classe_resistance
@@ -49,6 +53,24 @@ class BetonArme:
             return 0.3 * pow(fck, 2./3.)
         else:
             return 2.12 * log10(1. + fcm / 10.)
+    
+    def fctm_fl(self):
+        fctm = self.fctm()
+        h = self.h
+        #---
+        fctm_fl = max(fctm, (1.6 - h / 1000.) * fctm)
+        return fctm_fl
+    
+    def fct_eff(self):
+        fctm = self.fctm()
+        fctm_fl = self.fctm_fl()
+        maitrise_fissuration = self.maitrise_fissuration
+        #---
+        if maitrise_fissuration == True:
+            fct_eff = fctm
+        else:
+            fct_eff = fctm_fl
+        return fct_eff
 
     def fctk_005(self):
         fctm = self.fctm()
@@ -237,6 +259,8 @@ class BetonArme:
         printligne("", "fck_cube", "MPa", f'{self.fck_cube():.0f}')
         printligne("", "fcm", "MPa", f'{self.fcm():.0f}')
         printligne("Résistance caractéristique en traction", "fctm", "MPa", f'{self.fctm():.2f}')
+        printligne("", "fctm_fl", "MPa", f'{self.fctm_fl():.2f}')
+        printligne("", "fct_eff", "MPa", f'{self.fct_eff():.2f}')
         printligne("", "fctk_095", "MPa", f'{self.fctk_095():.2f}')
         printligne("", "fctk_005", "MPa", f'{self.fctk_005():.2f}')
         printligne("Coefficient de fluage", "fi_infini_t0", "-", f'{self.fi_infini_t0:.2f}')
@@ -268,5 +292,6 @@ class BetonArme:
 
 if __name__ == '__main__':
     situation = SituationProjet('Durable')
-    beton = BetonArme(situation, classe_exposition='XS1', classe_resistance='C30/37', alpha_cc=1, alpha_ct=1, age=7, classe_ciment="N", _alpha_e=15, fi_infini_t0=2)
+    beton = BetonArme(situation, classe_exposition='XS1', classe_resistance='C30/37', alpha_cc=1, alpha_ct=1, age=28, classe_ciment="N", _alpha_e=15, fi_infini_t0=2,
+                      h=0.5, maitrise_fissuration=True)
     beton.__repr__()
