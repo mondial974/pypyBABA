@@ -104,7 +104,7 @@ if __name__ == "__main__":
     classeresistance = "C25/30"
     acc = 1
     act = 1
-    gc = situation.gc()
+    gamma_c = situation.gamma_c()
     age = 28
     classeciment = "N"
     ae = 15

@@ -4,14 +4,14 @@ from pyEurocode2.constante import *
 class BetonArme:
     """ret"""
     
-    def __init__(self, classeexposition='XC3', classeresistance='C25/30', acc=1, act=1, age=28, classeciment="N", gc = 1.5, fiinft0 = 2.):
+    def __init__(self, classeexposition='XC3', classeresistance='C25/30', acc=1, act=1, age=28, classeciment="N", gamma_c = 1.5, fiinft0 = 2.):
         self.classeexposition = classeexposition
         self.classeresistance = classeresistance
         self.acc = acc
         self.act = act
         self.age = age
         self.classeciment = classeciment
-        self.gc = gc
+        self.gamma_c = gamma_c
         self.fiinft0 = fiinft0
         
     def affiche_classeresistance(self):
@@ -25,13 +25,13 @@ class BetonArme:
         fck = fck[CR]
         return fck
     
-    def fckcube(self):
+    def fck_cube(self):
         listeCR = ['C12/15', 'C16/20', 'C20/25', 'C25/30', 'C30/37', 'C35/45', 'C40/50',
                    'C45/55', 'C50/60', 'C55/67', 'C60/75', 'C70/85', 'C80/95', 'C90/105']
-        fckcube = [15., 20., 25., 30., 37., 45., 50., 55., 60., 67., 75., 85., 95., 105.]
+        fck_cube = [15., 20., 25., 30., 37., 45., 50., 55., 60., 67., 75., 85., 95., 105.]
         CR = listeCR.index(self.classeresistance)
-        fckcube = fckcube[CR]
-        return fckcube
+        fck_cube = fck_cube[CR]
+        return fck_cube
     
     def fcm(self):
         """Calcul fcm"""
@@ -43,10 +43,10 @@ class BetonArme:
         else:
             return 2.12 * log10(1. + self.fcm() / 10.)
         
-    def fctk005(self):
+    def fctk_005(self):
         return 0.7 * self.fctm()
     
-    def fctk095(self):
+    def fctk_095(self):
         return 1.3 * self.fctm()
     
     def Ecm(self):
@@ -58,7 +58,7 @@ class BetonArme:
     def ae(self):
         return ES / self.Eceff()
         
-    def betacct(self):
+    def beta_cc_t(self):
         if self.classeciment == 'R' or self.classeciment == 'r': #ciment de classe R
             s = 0.2
         elif self.classeciment == 'N' or self.classeclasse =='n': #ciment de classe N
@@ -67,35 +67,35 @@ class BetonArme:
             s = 0.38
         return exp(s * (1. - sqrt(28. / self.age)))
     
-    def fckt(self):
+    def fck_t(self):
         if self.age < 28:
-            return self.fcmt() - 8.
+            return self.fcm_t() - 8.
         else:
             return self.fck()
     
-    def fcmt(self):
+    def fcm_t(self):
         if self.age < 28:
-            return self.betacct() * self.fcm()
+            return self.beta_cc_t() * self.fcm()
         else:
             return self.fcm()
     
-    def fctmt(self):
+    def fctm_t(self):
         if self.age < 28:
             alpha = 1.
         else:
             alpha = 2./3.
-        return pow(self.betacct(), alpha) * self.fctm()
+        return pow(self.beta_cc_t(), alpha) * self.fctm()
     
-    def Ecmt(self):
-        return self.Ecm() * pow(self.fcmt() / self.fcm() ,0.3)
+    def Ecm_t(self):
+        return self.Ecm() * pow(self.fcm_t() / self.fcm() ,0.3)
         
         
     def fcd(self):
         """Calcul fcd"""
-        return self.acc * self.fck() / self.gc   
+        return self.acc * self.fck() / self.gamma_c   
     
     def fctd(self):
-        return self.act * self.fctk005() / self.gc
+        return self.act * self.fctk_005() / self.gamma_c
        
     def __repr__(self):
         print(f"Caractéristique béton")
@@ -103,11 +103,11 @@ class BetonArme:
         print(f"Classe d'exposition : {self.classeexposition}")
         print(f"Classe de résistance : {self.classeresistance}")
         print(f"fck = {self.fck():.0f} MPa")
-        print(f"fckcube = {self.fckcube():.0f} MPa")
+        print(f"fck_cube = {self.fck_cube():.0f} MPa")
         print(f"fcm = {self.fcm()} MPa")
         print(f"fctm = {self.fctm():.2f} MPa")
-        print(f"fctk095 = {self.fctk095():.2f} MPa")
-        print(f"fctk005 = {self.fctk005():.2f} MPa")
+        print(f"fctk_095 = {self.fctk_095():.2f} MPa")
+        print(f"fctk_005 = {self.fctk_005():.2f} MPa")
         print(f"fiinft0 = {self.fiinft0}")
         print(f"Ecm = {self.Ecm():.0f} MPa")
         print(f"Eceff = {self.Eceff():.0f} MPa")
@@ -115,16 +115,16 @@ class BetonArme:
         print("-" * 21)
         
         print(f"age = {self.age} jours")
-        print(f"betacc(t) = {self.betacct():.2f}")
-        print(f"fck(t) = {self.fckt():.2f} MPa")
-        print(f"fcm(t) = {self.fcmt():.2f} MPa")
-        print(f"fctm(t) = {self.fctmt():.2f} MPa")
-        print(f"Ecm(t) = {self.Ecmt():.0f} MPa")
+        print(f"betacc(t) = {self.beta_cc_t():.2f}")
+        print(f"fck(t) = {self.fck_t():.2f} MPa")
+        print(f"fcm(t) = {self.fcm_t():.2f} MPa")
+        print(f"fctm(t) = {self.fctm_t():.2f} MPa")
+        print(f"Ecm(t) = {self.Ecm_t():.0f} MPa")
         print("-" * 21)
         
         print(f"acc = {self.acc}")
         print(f"act = {self.act}")
-        print(f"gc = {self.gc}")
+        print(f"gamma_c = {self.gamma_c}")
         print(f"fcd = {self.fcd():.2f} MPa")
         print(f"fctd = {self.fctd():.2f} MPa")
         

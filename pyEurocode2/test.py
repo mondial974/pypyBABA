@@ -24,4 +24,4 @@ if __name__ == "__main__":
     print("largeur =", poutre.b)
     print("hauteur =", poutre.h)
     print("aire =", f"{poutre.aire()}")
-    print("perimetre =", f"{poutre.perimetre()}")
+    print("perimetre_barre =", f"{poutre.perimetre()}")

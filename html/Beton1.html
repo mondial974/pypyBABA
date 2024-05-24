@@ -21,7 +21,7 @@
 
     <div class="container">
       <div class="itemdonnee">
-        <h2>Saisie donnée</h2><br />
+        <h2>Saisie des données</h2><br />
         <label for="situation_projet">Situation de projet</label>
         <select name="situation_projet" id="situation_projet">
           <option value="Durable" selected>Durable</option>
@@ -90,7 +90,8 @@
       <div class="itemresultat">
         <h2>Résultats</h2>
         <button id="btn-resultat" py-click="resultat_court()">Court</button>
-        <button id="btn-resultat" py-click="resultat_long()">Long</button><br><br>
+        <button id="btn-resultat" py-click="resultat_long()">Long</button>
+        <button id="impression" onclick="window.print()">Imprimer</button> <br /><br />
         <py-script src="/pyscript/Beton1.py"></py-script>
         <div id="resultat"></div>
       </div>

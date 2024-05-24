@@ -265,7 +265,7 @@ if __name__ == "__main__":
     situation = SituationProjet(situation)
         
     classeexposition = "XC3"
-    classeresistance = "C25/30"
+    classeresistance = "C30/37"
     acc = 1
     act = 1
     age = 28

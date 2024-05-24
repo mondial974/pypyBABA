@@ -116,7 +116,7 @@ class EffortTranchant():
 ###############################################################################
     def CRdc(self):
         """Valeur CRdc"""
-        gamma_c = self.beton.gc
+        gamma_c = self.beton.gamma_c
         return 0.18 / gamma_c
     
     def sigma_cp(self):
@@ -395,17 +395,17 @@ if __name__ == "__main__":
     a = AcierArmature(s, nuance, diagramme, diametre)
     
     redistribution = "Poutre"
-    VEdmax = 427.7 / 100
-    VEdred = 396.6 / 100
+    VEdmax = 19 / 100
+    VEdred = 19 / 100
     NEd = 0 / 100
-    bw = 75 / 100
-    h = 205 / 100
-    c1 = 20 / 100
-    Asl = 104.52 / 1e4
-    Asw = 9 / 1e4
-    s = 0 / 100
+    bw = 84 / 100
+    h = 60 / 100
+    c1 = 5 / 100
+    Asl = 0 / 1e4
+    Asw = 1 / 1e4
+    s = 15 / 100
     alpha = 45
-    teta = 26.56
+    teta = 45
     ef = EffortTranchant(b, a, redistribution, VEdmax, VEdred, NEd, bw, h, c1, Asl, Asw, s, alpha, teta)
     
     ef.resultat_long()

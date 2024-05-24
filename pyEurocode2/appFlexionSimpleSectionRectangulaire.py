@@ -7,8 +7,8 @@ from coresituationprojet import *
 from utilsprint import *
 from utilsmath import racinepolynome3
 
-import warnings
-warnings.filterwarnings('ignore', 'The iteration is not making good progress')
+import warningamma_s
+warningamma_s.filterwarningamma_s('ignore', 'The iteration is not making good progress')
 
 
 class FlexionSimpleSectionRectangulaire():
@@ -33,6 +33,8 @@ class FlexionSimpleSectionRectangulaire():
 ###############################################################################
 # DEFINITION DES IS
 ###############################################################################
+
+
     def isaciercomprime(self):
         if self.mucu() > self.mulimite():
             return True
@@ -42,6 +44,8 @@ class FlexionSimpleSectionRectangulaire():
 ###############################################################################
 # GEOMETRIE POUTRE
 ###############################################################################
+
+
     def d(self):
         """Calcul la hauteur utile"""
         h = self.h
@@ -154,6 +158,11 @@ class FlexionSimpleSectionRectangulaire():
         zc = self.zc()
         Ss1 = self.Ss1()
         return MEd / (zc * Ss1)
+    
+    def x(self):
+        alpha_u = self.alpha_u()
+        d = self.d()
+        return alpha_u * d
 
 ###############################################################################
 # CALCUL DES ACIERS : SECTION RECTANGULAIRE AVEC ACIERS COMPRIMES
@@ -161,6 +170,7 @@ class FlexionSimpleSectionRectangulaire():
 ###############################################################################
 
 # ACIERS COMPRIMES NON IMPOSES
+
     def Mlu(self):
         ulu = self.mulimite()
         b = self.bw
@@ -203,6 +213,7 @@ class FlexionSimpleSectionRectangulaire():
         return Mlu / (zc * Ss1) + As2 * Ss2e / Ss1e
 
 # ACIERS COMPRIMES IMPOSES
+
     def MEd1(self):
         MEd = self.Mu
         As2 = self.As2imposee
@@ -226,6 +237,7 @@ class FlexionSimpleSectionRectangulaire():
 ###############################################################################
 
 # ACIERS COMPRIMES NON IMPOSES
+
     def alpha1(self):
         lmbda = self.beton.lmbda()
         mulu = self.mulimite()
@@ -238,8 +250,8 @@ class FlexionSimpleSectionRectangulaire():
         return ecu3 * (alpha1 - deltaprime) / alpha1
 
     def Ss2u(self):
-        es = self.es2u()
-        return self.acier.Ss_PH(es)
+        epsilon_s = self.es2u()
+        return self.acier.Ss_PH(epsilon_s)
 
     def As2u(self):
         MEd = self.Mu
@@ -259,6 +271,7 @@ class FlexionSimpleSectionRectangulaire():
         return Mlu / (zc * fyd) + (MEd - Mlu) / ((d - dprime) * fyd)
 
 # ACIERS COMPRIMES IMPOSES
+
     def As1(self):
         MEd1 = self.MEd1()
         zc = self.zc()
@@ -271,7 +284,6 @@ class FlexionSimpleSectionRectangulaire():
 ###############################################################################
 # AFFICHAGE DES RESULTATS
 ###############################################################################
-
 
     def resultat_court(self):
         pass
@@ -286,8 +298,11 @@ class FlexionSimpleSectionRectangulaire():
         printligne("-", "gamma", "-", f"{self.gamma():.4f}")
 
         printligne("-", "lambda", "-", f"{self.beton.lmbda():.4f}")
+        
         printligne("-", "fyd", "-", f"{self.acier.fyd():.4f}")
 
+        printligne("-", "x", "-", f"{self.x()*100:.0f}")
+        printligne("-", "z", "-", f"{self.zc()*100:.2f}")
         printligne("-", "mu_cu", "-", f"{self.mucu():.4f}")
         printligne("-", "mu_lu", "-", f"{self.mulu():.4f}")
         printligne("-", "mu_ls", "-", f"{self.muls():.4f}")
@@ -299,7 +314,9 @@ class FlexionSimpleSectionRectangulaire():
 ###############################################################################
 # TEST
 ###############################################################################
-if __name__ == '__main__':
+
+
+if __name__ == '__main__': 
     nuance = "S500A"
     situation = SituationProjet('Durable')
     beton = BetonArme(situation, classeexposition='XS1', classeresistance="C25/30",
@@ -307,5 +324,5 @@ if __name__ == '__main__':
     acier = AcierArmature(
         situation, nuance, diagramme="Palier horizontal", diametre=8)
     fs = FlexionSimpleSectionRectangulaire(
-        beton, acier, bw=18/100, h=60/100, c1=5/100, c2=3/100, Mu=22.253/100, Mser=15.895/100, As2imposee=0/1e4)
+        beton, acier, bw=100/100, h=18/100, c1=4/100, c2=4/100, Mu=1.471/100, Mser=1/100, As2imposee=0/1e4)
     fs.resultat_long()

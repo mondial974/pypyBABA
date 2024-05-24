@@ -4,7 +4,7 @@ class SituationProjet:
         self.situation = situation
            
 
-    def gc(self):
+    def gamma_c(self):
         if self.situation == 'Durable':
             return 1.5
               
@@ -12,7 +12,7 @@ class SituationProjet:
             return  1.2 
           
     
-    def gs(self):
+    def gamma_s(self):
         if self.situation == 'Durable':
             return 1.15
         
@@ -22,7 +22,7 @@ class SituationProjet:
      
     def __repr__(self):
         print(f"Situation de projet : {self.situation}")
-        print(f"gc = {self.gc()}")
-        print(f"gs = {self.gs()}")
+        print(f"gamma_c = {self.gamma_c()}")
+        print(f"gamma_s = {self.gamma_s()}")
                         
         return ""

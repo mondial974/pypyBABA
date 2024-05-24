@@ -7,138 +7,188 @@ from coreconstante import *
 from coresituationprojet import *
 from utilsprint import *
 
-RHO_BETON_ARME = 2500
-
 
 class BetonArme:
 
-    def __init__(self, situation, classeexposition='XC3', classeresistance='C25/30', acc=1, act=1, age=28, classeciment='N', ae=0, fiinft0=2):
+    def __init__(self, situation, classe_exposition='XC3', classe_resistance='C25/30', alpha_cc=1, alpha_ct=1, age=28, classe_ciment='N', _alpha_e=0, fi_infini_t0=2):
         self.situation = situation
-        self.classeexposition = classeexposition
-        self.classeresistance = classeresistance
-        self.acc = acc
-        self.act = act
-        self.gc = self.situation.gc()
+        self.classe_exposition = classe_exposition
+        self.classe_resistance = classe_resistance
+        self.alpha_cc = alpha_cc
+        self.alpha_ct = alpha_ct
+        self.gamma_c = self.situation.gamma_c()
         self.age = age
-        self.classeciment = classeciment
-        self.ae = ae
-        self.fiinft0 = fiinft0
-
-    def set_ae(self, valeur):
-        self.ae = valeur
-
-    def affiche_classeresistance(self):
-        return 'C12/15 C16/20 C20/25 C25/30 C30/37 C35/45 C40/50 C45/55 C50/60 C55/67 C60/75 C70/85 C80/95 C90/105'
+        self.classe_ciment = classe_ciment
+        self._alpha_e = _alpha_e
+        self.fi_infini_t0 = fi_infini_t0
 
     def fck(self):
-        listeCR = ['C12/15', 'C16/20', 'C20/25', 'C25/30', 'C30/37', 'C35/45', 'C40/50',
-                   'C45/55', 'C50/60', 'C55/67', 'C60/75', 'C70/85', 'C80/95', 'C90/105']
-        fck = [12., 16., 20., 25., 30., 35., 40., 45., 50., 55., 60., 70., 80., 90.]
-        CR = listeCR.index(self.classeresistance)
-        fck = fck[CR]
+        classe_resistance = self.classe_resistance
+        #---
+        fck = DICT_FCK[classe_resistance]
         return fck
 
-    def fckcube(self):
-        listeCR = ['C12/15', 'C16/20', 'C20/25', 'C25/30', 'C30/37', 'C35/45', 'C40/50',
-                   'C45/55', 'C50/60', 'C55/67', 'C60/75', 'C70/85', 'C80/95', 'C90/105']
-        fckcube = [15., 20., 25., 30., 37., 45., 50., 55., 60., 67., 75., 85., 95., 105.]
-        CR = listeCR.index(self.classeresistance)
-        fckcube = fckcube[CR]
-        return fckcube
+    def fck_cube(self):
+        classe_resistance = self.classe_resistance
+        #---
+        fck_cube = DICT_FCK_CUBE[classe_resistance]
+        return fck_cube
 
     def fcm(self):
         """Calcul fcm"""
-        return self.fck() + 8.
+        fck = self.fck()
+        #---
+        fcm = fck + 8.
+        return fcm
 
     def fctm(self):
-        if self.fck() <= 50.:
-            return 0.3 * pow(self.fck(), 2./3.)
+        fck = self.fck()
+        fcm = self.fcm()
+        #---
+        if fck <= 50.:
+            return 0.3 * pow(fck, 2./3.)
         else:
-            return 2.12 * log10(1. + self.fcm() / 10.)
+            return 2.12 * log10(1. + fcm / 10.)
 
-    def fctk005(self):
-        return 0.7 * self.fctm()
+    def fctk_005(self):
+        fctm = self.fctm()
+        #---
+        fctk_005 = 0.7 * fctm
+        return fctk_005
 
-    def fctk005t(self):
-        return 0.7 * self.fctmt()
-
-    def fctk095(self):
-        return 1.3 * self.fctm()
+    def fctk_005_t(self):
+        fctm_t = self.fctm_t()
+        #---
+        fctk_005_t = 0.7 * fctm_t
+        return fctk_005_t
+        
+    def fctk_095(self):
+        fctm = self.fctm()
+        #---
+        fctk_095 = 1.3 * fctm
+        return fctk_095
 
     def Ecm(self):
-        return 22000. * pow(self.fcm() / 10., 0.3)
+        fcm = self.fcm()
+        #---
+        Ecm = 22000. * pow(fcm / 10., 0.3)
+        return Ecm
 
     def Eceff(self):
-        return self.Ecm() / (1 + self.fiinft0)
+        Ecm = self.Ecm()
+        fi_infini_t0 = self.fi_infini_t0
+        #---
+        Eceff = Ecm / (1 + fi_infini_t0)
+        return Eceff
 
-    def alphae(self):
-        if self.ae == 0:
-            ae = ES / self.Eceff()
-            self.set_ae(ae)
-            return ae
+    def get_alpha_e(self):
+        Eceff = self.Eceff()
+        #---
+        if self._alpha_e == 0:
+            alpha_e = ES / Eceff
         else:
-            return self.ae
+            alpha_e = self._alpha_e
+        return alpha_e
+            
+    def s_ciment(self):
+        classe_ciment = self.classe_ciment
+        #---
+        s = DICT_S_CIMENT[classe_ciment]
+        return s
+        
+    def beta_cc_t(self):
+        age = self.age
+        s = self.s_ciment()
+        #---
+        beta_cc_t = exp(s * (1. - sqrt(28. / age)))
+        return beta_cc_t
 
-    def betacct(self):
-        if self.classeciment == 'R' or self.classeciment == 'r':  # ciment de classe R
-            s = 0.2
-        elif self.classeciment == 'N' or self.classeciment == 'n':  # ciment de classe N
-            s = 0.25
-        elif self.classeciment == 'S' or self.classeciment == 's':  # ciment de classe S
-            s = 0.38
-        return exp(s * (1. - sqrt(28. / self.age)))
-
-    def fckt(self):
-        if self.age < 28:
-            return self.fcmt() - 8.
+    def fck_t(self):
+        age = self.age
+        fcm_t = self.fcm_t()
+        fck = self.fck()
+        #---
+        if age < 28:
+            fck_t = fcm_t - 8.
         else:
-            return self.fck()
+            fck_t = fck
+        return fck_t
 
-    def fcmt(self):
-        if self.age < 28:
-            return self.betacct() * self.fcm()
-        else:
-            return self.fcm()
+    def fcm_t(self):
+        beta_cc_t = self.beta_cc_t()
+        fcm = self.fcm()
+        #---
+        fcm_t = beta_cc_t * fcm
+        return fcm_t
 
-    def fctmt(self):
-        if self.age < 28:
+    def fctm_t(self):
+        age = self.age
+        beta_cc_t = self.beta_cc_t()
+        fctm = self.fctm()
+        #---
+        if age < 28:
             alpha = 1.
         else:
             alpha = 2./3.
-        return pow(self.betacct(), alpha) * self.fctm()
+        fctm_t = pow(beta_cc_t, alpha) * fctm
+        return fctm_t
 
-    def Ecmt(self):
-        return self.Ecm() * pow(self.fcmt() / self.fcm(), 0.3)
+    def Ecm_t(self):
+        Ecm = self.Ecm()
+        fcm_t = self.fcm_t()
+        fcm = self.fcm()
+        #---
+        Ecm_t = Ecm * pow(fcm_t / fcm, 0.3)
+        return Ecm_t
 
     def fcd(self):
         """Calcul fcd"""
-        return self.eta() * self.acc * self.fckt() / self.gc
+        eta = self.eta()
+        alpha_cc = self.alpha_cc
+        fck_t = self.fck_t()
+        gamma_c = self.gamma_c
+        #---
+        fcd = eta * alpha_cc * fck_t / gamma_c
+        return fcd
 
     def fctd(self):
-        return self.act * self.fctk005t() / self.gc
+        alpha_ct = self.alpha_ct
+        fctk_005_t = self.fctk_005_t()
+        gamma_c = self.gamma_c
+        #---
+        fctd = alpha_ct * fctk_005_t / gamma_c
+        return fctd
 
     def k1(self):
-        dict_k1 = {'X0': 1, 'XC1': 1, 'XC2': 1, 'XC3': 1, 'XC4': 1,
-                   'XD1': 0.6, 'XD2': 0.6, 'XD3': 0.6,
-                   'XS1': 0.6, 'XS2': 0.6, 'XS3': 0.6,
-                   'XF1': 0.6, 'XF2': 0.6, 'XF3': 0.6, 'XF4': 0.6,
-                   'XA1': 1, 'XA2': 1, 'XA3': 1}
-        return dict_k1[self.classeexposition]
+        classe_exposition = self.classe_exposition
+        #---
+        k1 = DICT_K1[classe_exposition]
+        return k1
 
     def Scbar(self):
-        return self.k1() * self.fck()
+        k1 = self.k1()
+        fck = self.fck()
+        #---
+        Scbar = self.k1() * self.fck()
+        return Scbar
 
     def lmbda(self):
-        if self.fck() <= 50:
-            return 0.8
+        fck = self.fck()
+        #---
+        if fck <= 50.:
+            lmbda =  0.8
         else:
-            return 0.8 - (self.fck() - 50) / 400
+            lmbda = 0.8 - (fck() - 50.) / 400.
+        return lmbda
 
     def eta(self):
-        if self.fck() <= 50:
-            return 1
+        fck = self.fck()
+        #---
+        if fck <= 50.:
+            eta = 1.
         else:
-            return 1 - (self.fck() - 50) / 100
+            eta = 1. - (fck() - 50.) / 100.
+        return eta
 
     def resultatdetail(self):
         w = 40
@@ -149,28 +199,29 @@ class BetonArme:
         tableau.add_column("unité", justify="left")
         tableau.add_row("Classe d'exposition", "-", f"{self.classeexposition}", "-")
         tableau.add_row("Classe de résistance", "-", f"{self.classeresistance}", "-")
-        tableau.add_row("Classe de ciment    ", "-", f"{self.classeciment}", "-")
+        tableau.add_row("Classe de ciment", "-", f"{self.classeciment}", "-")
+        tableau.add_row("", "s", f"{self.s_ciment()}", "-")
         tableau.add_row("Résistance caractéritique en compression", "fck", f"{self.fck():.0f}", "MPa")
-        tableau.add_row("", "fckcube", f"{self.fckcube():.0f}", "MPa")
+        tableau.add_row("", "fck_cube", f"{self.fck_cube():.0f}", "MPa")
         tableau.add_row("", "fcm", f"{self.fcm():.0f}", "MPa")
         tableau.add_row("Résistance caractéristique en traction", "fctm", f"{self.fctm():.2f}", "MPa")
-        tableau.add_row("", "fctk095", f"{self.fctk095():.2f}", "MPa")
-        tableau.add_row("", "fctk005", f"{self.fctk005():.2f}", "MPa")
+        tableau.add_row("", "fctk_095", f"{self.fctk_095():.2f}", "MPa")
+        tableau.add_row("", "fctk_005", f"{self.fctk_005():.2f}", "MPa")
         tableau.add_row("Coefficient de fluage", "fiinft0", f"{self.fiinft0}", "-")
         tableau.add_row("Module d'elacticité sécant", "Ecm", f"{self.Ecm():.0f}", "MPa")
         tableau.add_row("Module d'élasticité effectif", "Eceff", f"{self.Eceff():.0f}", "MPa")
         tableau.add_row("Coefficient d'équivalence", "ae", f"{self.alphae():.0f}", "-")
         tableau.add_row("", "", "", "")
         tableau.add_row("Age du béton", "age", f"{self.age}", "jours")
-        tableau.add_row("", "betacc(t)", f"{self.betacct():.2f}", "-")
-        tableau.add_row("Résistance caractéritique en compression", "fck(t)", f"{self.fckt():.2f}", "MPa")
-        tableau.add_row("", "fcm(t)", f"{self.fcmt():.2f}", "MPa")
-        tableau.add_row("Résistance caractéristique en traction", "fctm(t)", f"{self.fctmt():.2f}", "MPa")
-        tableau.add_row("Module d'elacticité sécant", "Ecm(t)", f"{self.Ecmt():.0f}", "MPa")
+        tableau.add_row("", "betacc(t)", f"{self.beta_cc_t():.2f}", "-")
+        tableau.add_row("Résistance caractéritique en compression", "fck(t)", f"{self.fck_t():.2f}", "MPa")
+        tableau.add_row("", "fcm(t)", f"{self.fcm_t():.2f}", "MPa")
+        tableau.add_row("Résistance caractéristique en traction", "fctm(t)", f"{self.fctm_t():.2f}", "MPa")
+        tableau.add_row("Module d'elacticité sécant", "Ecm(t)", f"{self.Ecm_t():.0f}", "MPa")
         tableau.add_row("", "", "", "")
         tableau.add_row("", "acc", f"{self.acc}", "-")
         tableau.add_row("", "act", f"{self.act}", "-")
-        tableau.add_row("", "gc", f"{self.gc}", "-")
+        tableau.add_row("", "gamma_c", f"{self.gamma_c}", "-")
         tableau.add_row("Résistance de calcul en compression", "fcd", f"{self.fcd():.2f}", "MPa")
         tableau.add_row("Résistance de calcul en traction", "fctd", f"{self.fctd():.2f}", "MPa")
         console = Console()
@@ -178,31 +229,32 @@ class BetonArme:
 
     def __repr__(self):
         printentete()
-        printligne("Classe d'exposition", "-", "-", f'{self.classeexposition}')
-        printligne("Classe de résistance", "-", "-", f'{self.classeresistance}')
-        printligne("Classe de ciment    ", "-", "-", f'{self.classeciment}')
+        printligne("Classe d'exposition", "-", "-", f'{self.classe_exposition}')
+        printligne("Classe de résistance", "-", "-", f'{self.classe_resistance}')
+        printligne("Classe de ciment    ", "-", "-", f'{self.classe_ciment}')
+        printligne("", "s", "-", f"{self.s_ciment():.2f}")
         printligne("Résistance caractéritique en compression", "fck", "MPa", f'{self.fck():.0f}')
-        printligne("", "fckcube", "MPa", f'{self.fckcube():.0f}')
+        printligne("", "fck_cube", "MPa", f'{self.fck_cube():.0f}')
         printligne("", "fcm", "MPa", f'{self.fcm():.0f}')
         printligne("Résistance caractéristique en traction", "fctm", "MPa", f'{self.fctm():.2f}')
-        printligne("", "fctk095", "MPa", f'{self.fctk095():.2f}')
-        printligne("", "fctk005", "MPa", f'{self.fctk005():.2f}')
-        printligne("Coefficient de fluage", "fiinft0", "-", f'{self.fiinft0:.2f}')
+        printligne("", "fctk_095", "MPa", f'{self.fctk_095():.2f}')
+        printligne("", "fctk_005", "MPa", f'{self.fctk_005():.2f}')
+        printligne("Coefficient de fluage", "fi_infini_t0", "-", f'{self.fi_infini_t0:.2f}')
         printligne("Module d'elacticité sécant", "Ecm", "MPa", f'{self.Ecm():.0f}')
         printligne("Module d'élasticité effectif", "Eceff", "MPa", f'{self.Eceff():.0f}')
-        printligne("Coefficient d'équivalence", "ae", "-", f'{self.alphae():.0f}')
+        printligne("Coefficient d'équivalence", "alpha_e", "-", f'{self.get_alpha_e():.0f}')
         printsep()
         printligne("Age du béton", "age", "jour", f'{self.age:.0f}')
-        printligne("", "betacc(t)", "-", f'{self.betacct():.3f}')
-        printligne("Résistance caractéritique en compression", "fck(t)", "MPa", f'{self.fckt():.2f}')
-        printligne("", "fcm(t)", "MPa", f'{self.fcmt():.2f}')
-        printligne("Résistance caractéristique en traction", "fctm(t)", "MPa", f'{self.fctmt():.2f}')
-        printligne("Module d'elacticité sécant", "Ecm(t)", "MPa", f'{self.Ecmt():.0f}')
+        printligne("", "beta_cc(t)", "-", f'{self.beta_cc_t():.3f}')
+        printligne("Résistance caractéritique en compression", "fck(t)", "MPa", f'{self.fck_t():.2f}')
+        printligne("", "fcm(t)", "MPa", f'{self.fcm_t():.2f}')
+        printligne("Résistance caractéristique en traction", "fctm(t)", "MPa", f'{self.fctm_t():.2f}')
+        printligne("Module d'elacticité sécant", "Ecm(t)", "MPa", f'{self.Ecm_t():.0f}')
         printsep()
         print("A l'ELU")
-        printligne("", "acc", "-", f'{self.acc:.2f}')
-        printligne("", "act", "-", f'{self.act:.2f}')
-        printligne("", "gc", "-", f'{self.gc:.2f}')
+        printligne("", "alpha_cc", "-", f'{self.alpha_cc:.2f}')
+        printligne("", "alpha_ct", "-", f'{self.alpha_ct:.2f}')
+        printligne("", "gamma_c", "-", f'{self.gamma_c:.2f}')
         printligne("", "eta", "-", f'{self.eta():.2f}')
         printligne("", "lambda", "-", f'{self.lmbda():.2f}')
         printligne("Résistance de calcul en compression", "fcd", "MPa", f'{self.fcd():.2f}')
@@ -216,6 +268,5 @@ class BetonArme:
 
 if __name__ == '__main__':
     situation = SituationProjet('Durable')
-    beton = BetonArme(situation, classeexposition='XS1', classeresistance='C30/37', acc=1, act=1, age=7, classeciment="N", ae=0, fiinft0=2)
-    # beton.resultatdetail()
+    beton = BetonArme(situation, classe_exposition='XS1', classe_resistance='C30/37', alpha_cc=1, alpha_ct=1, age=7, classe_ciment="N", _alpha_e=15, fi_infini_t0=2)
     beton.__repr__()

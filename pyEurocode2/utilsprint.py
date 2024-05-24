@@ -5,7 +5,7 @@ def printentete():
     print("="*77)
 
 def printligne(designation, symbole, unite, valeur):
-    print(f'    {designation:45} {symbole:<10} {valeur:>10} {"   "} {unite:<10}')
+    print(f'    {designation:45} {symbole:<15} {valeur:>10} {"   "} {unite:<10}')
         
 def printsep():
     print("-"*77)

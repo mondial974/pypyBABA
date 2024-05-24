@@ -5,8 +5,6 @@ from coreconstante import *
 from coresituationprojet import *
 from utilsprint import *
 
-ES = 200000
-RHO_ACIER = 7850
 
 class AcierArmature:
     
@@ -15,14 +13,16 @@ class AcierArmature:
         self.nuance = nuance
         self.diagramme = diagramme
         self.diametre = diametre / 1000
-        self.gs = self.situation.gs()
+        self.gamma_s = self.situation.gamma_s()
 
 
 ###############################################################################
 # DEFINITION DES IS
 ###############################################################################
     def isdiagrammePI(self):
-        if self.diagramme == "Palier incliné":
+        diagramme = self.diagramme
+        #---
+        if diagramme == "Palier incliné":
             return True
         else:
             return False
@@ -30,17 +30,26 @@ class AcierArmature:
 ###############################################################################
 # CARACTERISTIQUES DES BARRES D'ARMATURES
 ###############################################################################
-    def An(self):
-        """Diamètre d'une barre"""
-        return pi * self.diametre**2 / 4
+    def aire_barre(self):
+        """Section d'une barre"""
+        diametre = self.diametre
+        #---
+        aire_barre = pi * diametre**2. / 4.
+        return aire_barre
     
-    def P(self):
+    def perimetre_barre(self):
         """Périmètre d'une barre"""
-        return pi * self.diametre
+        diametre = self.diametre
+        #---
+        perimetre_barre = pi * self.diametre
+        return perimetre_barre
     
-    def masselineaire(self):
+    def masse_lineaire_barre(self):
         """Masse linéaire d'une barre"""
-        return self.An() * RHO_ACIER 
+        aire_barre = self.aire_barre()
+        #---
+        masse_lineaire_barre = aire_barre * RHO_ACIER 
+        return masse_lineaire_barre
 
        
 ###############################################################################
@@ -48,92 +57,120 @@ class AcierArmature:
 ###############################################################################    
     def fyk(self):
         """Limite d'élasticité de l'acier"""
-        dict_fyk = {"S500A" : 500, "S500B" : 500, "S500C" : 500,
-                    "S400A" : 400, "S400B" : 400, "S400C" : 400}
-        return dict_fyk[self.nuance]
+        nuance = self.nuance
+        #---
+        fyk = DICT_FYK[nuance]
+        return fyk
 
     def fyd(self):
         """Résistance de calcul de l'acier"""
-        return self.fyk() / self.situation.gs()
+        fyk = self.fyk()
+        gamma_s = self.situation.gamma_s()
+        #---
+        fyd = fyk / gamma_s
+        return fyd
     
     def fywd(self):
-        return self.fyd()
+        fyd = self.fyd()
+        #---
+        fywd = fyd
+        return fywd
     
     def Ss_bar_comb_car(self):
-        return 0.8 * self.fyk()
+        fyk = self.fyk()
+        #---
+        Ss_bar_comb_car = 0.8 * fyk
+        return Ss_bar_comb_car
     
     def Ss_bar_dep_imp(self):
-        return self.fyk()
+        fyk = self.fyk()
+        #---
+        Ss_bar_dep_imp = fyk
+        return Ss_bar_dep_imp
 
 
 ###############################################################################
 # DUCTILITE
 ###############################################################################
-    def classeductilite(self):
+    def classe_ductilite(self):
         """Classe de ductilité"""
-        dict_fyk = {"S500A" : "A", "S500B" : "B", "S500C" : "C",
-                    "S400A" : "A", "S400B" : "B", "S400C" : "C"}
-        return dict_fyk[self.nuance]
+        nuance = self.nuance
+        #---
+        classe_ductilite = DICT_DUCTILITE[nuance]
+        return classe_ductilite
     
     def k(self):
-        dict_k = { "A" : 1.05, "B" : 1.08, "C" : 1.15}
-        return dict_k[self.classeductilite()]
+        classe_ductilite = self.classe_ductilite()
+        #---
+        k = DICT_K[classe_ductilite]
+        return k
 
 
 ###############################################################################
 # ALLONGEMENTS
 ###############################################################################
     def epsilon_uk(self):
-        dict_k = { "A" : 2.5 / 100, "B" : 5 / 100, "C" : 7.5 / 100}
-        return dict_k[self.classeductilite()]    
-    
+        classe_ductilite = self.classe_ductilite()
+        #---
+        epsilon_uk = DICT_EPSILON_UK[classe_ductilite]
+        return epsilon_uk
+ 
     def epsilon_ud(self):
-        return 0.9 * self.epsilon_uk()    
+        epsilon_uk = self.epsilon_uk()
+        #---
+        epsilon_ud = 0.9 * epsilon_uk  
+        return epsilon_ud
             
     def epsilon_yd(self):
-        return self.fyd() / ES
+        fyd = self.fyd()
+        #---
+        epsilon_yd = self.fyd() / ES
+        return epsilon_yd
     
 
 ###############################################################################
 # RELATIONS CONTRAINTE DEFORMATION
 ###############################################################################
-    def Ss_PH(self, es):
+    def Ss_PH(self, epsilon_s):
         """Relation contrainte déformation Diagramme palier horizontal"""
-        self.es = es
-        es = self.es
-        eyd = self.epsilon_yd()
+        self.epsilon_s = epsilon_s
+        epsilon_s = self.epsilon_s
+        epsilon_yd = self.epsilon_yd()
         fyd = self.fyd()
-        
-        if es > eyd:
-            return fyd
+        #---
+        if epsilon_s > epsilon_yd:
+            Ss_PH = fyd
         else:
-            return ES * es
+            Ss_PH = ES * epsilon_s
+        return Ss_PH
     
-    def Ss_PI(self, es):
+    def Ss_PI(self, epsilon_s):
         """Relation contrainte déformation Diagramme palier incliné"""
-        self.es = es
-        es = self.es
-        eyd = self.epsilon_yd()
+        self.epsilon_s = epsilon_s
+        epsilon_s = self.epsilon_s
+        epsilon_yd = self.epsilon_yd()
         fyd = self.fyd()
         k = self.k()
-        euk = self.epsilon_uk()
-        
-        if es > eyd:
-            a = (1 - fyd * (k - 1) / (ES * euk - fyd)) * fyd
-            b = fyd * (k - 1) / (euk - fyd / ES)
-            return a + b * self.es
+        epsilon_uk = self.epsilon_uk()
+        #---
+        if epsilon_s > epsilon_yd:
+            a = (1 - fyd * (k - 1) / (ES * epsilon_uk - fyd)) * fyd
+            b = fyd * (k - 1) / (epsilon_uk - fyd / ES)
+            Ss_PI = a + b * self.epsilon_s
         else:
-            return ES * es
+            Ss_PI =  ES * epsilon_s
+        return Ss_PI
             
     def eq_SS_PI(self):
         fyd = self.fyd()
         k = self.k()
-        euk = self.epsilon_uk()
-        eud = self.epsilon_ud()
-        a = (1 - fyd * (k - 1) / (ES * euk - fyd)) * fyd
-        b = fyd * (k - 1) / (euk - fyd / ES)
-        Sslim = self.Ss_PI(eud)
-        return f"Ssbar = {a:.2f} + {b:.2f} *, limité à {Sslim:.0f} MPa"
+        epsilon_uk = self.epsilon_uk()
+        epsilon_ud = self.epsilon_ud()
+        #---
+        a = (1 - fyd * (k - 1) / (ES * epsilon_uk - fyd)) * fyd
+        b = fyd * (k - 1) / (epsilon_uk - fyd / ES)
+        Sslim = self.Ss_PI(epsilon_ud)
+        return print(f"Ssbar = {a:.2f} + {b:.2f} * epsilon_s, limité à {Sslim:.0f} MPa")
     
 
 ###############################################################################
@@ -147,7 +184,7 @@ class AcierArmature:
         print("Armatures")
         printligne("Nuance armature", "-", "-", f"{self.nuance}")
         printligne("Limite d'élasticité", "fyk", "MPa", f"{self.fyk()}")
-        printligne("Classe de ductilité", "-", "-", f"{self.classeductilite()}")
+        printligne("Classe de ductilité", "-", "-", f"{self.classe_ductilite()}")
         printligne("Module de déformation", "Es", "MPa", f"{ES}")
         printsep()
         if self.isdiagrammePI():
@@ -162,7 +199,7 @@ class AcierArmature:
             printligne("Limite d'allongement linéaire", "epsilon_yd", "%", f"{self.epsilon_yd()*100:.4f}")
         printsep() 
         print("Résistance de calcul à l'ELU")  
-        printligne("Coefficient de sécurité sur l'acier", "gs", "-", f"{self.situation.gs()}")    
+        printligne("Coefficient de sécurité sur l'acier", "gamma_s", "-", f"{self.situation.gamma_s()}")    
         printligne("Résistance de calcul", "fyd", "MPa", f"{self.fyd():.0f}") 
         printsep()
         print("Résistance de calcul à ELS")  
@@ -172,10 +209,11 @@ class AcierArmature:
         print("Caractéristique de la barre")  
         printligne("Masse volumique acier", "rho_acier", "kg/m3", f"{RHO_ACIER}")
         printligne("Diamètre", "D", "mm", f"{self.diametre*1000:.0f}")
-        printligne("Section", "An", "cm2", f"{self.An()*1e4:.2f}") 
-        printligne("Masse linéaire", "M", "kg/ml", f"{self.masselineaire():.3f}") 
-        printligne("Périmètre", "P", "mm", f"{self.P()*1000:.2f}") 
+        printligne("Section", "aire_barre", "cm2", f"{self.aire_barre()*1e4:.2f}") 
+        printligne("Masse linéaire", "M", "kg/ml", f"{self.masse_lineaire_barre():.3f}") 
+        printligne("Périmètre", "P", "mm", f"{self.perimetre_barre()*1000:.2f}") 
         printfintab()       
+        self.eq_SS_PI()
 
 
 ###############################################################################
@@ -183,8 +221,8 @@ class AcierArmature:
 ###############################################################################
 if __name__ == "__main__":
     situation = SituationProjet("Durable")
-    nuance = "S500C"
+    nuance = "S400C"
     diagramme = "Palier horizontal"
     diametre = 0
     acier = AcierArmature(situation, nuance, diagramme, diametre)
-    # acier.resultat_long()
+    acier.resultat_long()
