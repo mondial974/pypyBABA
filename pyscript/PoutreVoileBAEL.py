@@ -31,9 +31,9 @@ def resultat_long():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiint0 = 2
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae,
+    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e,
                       fiint0)
 
     diagramme = "Palier horizontal"
@@ -70,9 +70,9 @@ def minute():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiint0 = 2
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae,
+    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e,
                       fiint0)
 
     diagramme = "Palier horizontal"

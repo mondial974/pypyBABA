@@ -197,7 +197,7 @@ class PoteauCircCompressionSimple:
         
 if __name__ == "__main__":
     situation = SituationProjet('Durable')
-    beton = BetonArme(situation, classeexposition="XC3", classeresistance="C25/30", acc=1, act=1, age=28, classeciment="N", ae=15, fiinft0=2)
+    beton = BetonArme(situation, classeexposition="XC3", classeresistance="C25/30", acc=1, act=1, age=28, classeciment="N", alpha_e=15, fiinft0=2)
     acier = AcierArmature(situation, nuance='S500B', diagramme='Palier incliné', diametre=8)
     d = 40
     c = 3

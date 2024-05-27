@@ -11,7 +11,7 @@ def resultat_long():
     classe_ciment = Element("classe_ciment").element.value
     acc = float(Element("acc").element.value)
     act = float(Element("act").element.value)
-    ae = float(Element("ae").element.value)
+    alpha_e = float(Element("alpha_e").element.value)
     fiinft0 = float(Element("fiinft0").element.value)
     age = float(Element("age").element.value)
     nuance = Element("nuance").element.value
@@ -29,7 +29,7 @@ def resultat_long():
     ter.innerHTML = "<py-terminal id='terminal'></py-terminal>"
         
     situation = SituationProjet(situation=situation)
-    beton = BetonArme(situation, classeexposition=classe_exposition, classeresistance=classe_resistance, acc=acc, act=act, age=age, classeciment=classe_ciment, ae=ae, fiinft0=fiinft0)
+    beton = BetonArme(situation, classeexposition=classe_exposition, classeresistance=classe_resistance, acc=acc, act=act, age=age, classeciment=classe_ciment, alpha_e=alpha_e, fiinft0=fiinft0)
     acier = AcierArmature(situation, nuance, diagramme="Palier incliné", diametre=8)
     corbeau = Corbeau(beton, acier, FEd=FEd/100, HEd=HEd/100, ac=ac/100, aH=aH/100, bw=bw/100, h=h/100, cnom=cnom/100, t=t/100, bp=bp/100)
     corbeau.resultat_long()

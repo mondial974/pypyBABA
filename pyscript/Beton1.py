@@ -10,7 +10,7 @@ def resultat_long():
     classe_ciment = Element("classe_ciment").element.value
     acc = float(Element("acc").element.value)
     act = float(Element("act").element.value)
-    ae = float(Element("ae").element.value)
+    alpha_e = float(Element("alpha_e").element.value)
     fiinft0 = float(Element("fiinft0").element.value)
     age = float(Element("age").element.value)
     
@@ -19,7 +19,7 @@ def resultat_long():
         
     situation = SituationProjet(situation)
     beton = BetonArme(situation, classeexposition=classe_exposition, classeresistance=classe_resistance,
-                      acc=acc, act=act, age=age, classeciment=classe_ciment, ae=ae, fiinft0=fiinft0)
+                      acc=acc, act=act, age=age, classeciment=classe_ciment, alpha_e=alpha_e, fiinft0=fiinft0)
     #beton.resultatdetail()
     beton.__repr__()
 

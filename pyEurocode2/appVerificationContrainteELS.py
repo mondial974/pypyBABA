@@ -70,21 +70,21 @@ class VerifContrainteELSSectionRectangulaire:
     def Ach_rect(self):
         bw = self.bw
         h = self.h
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         As1 = self.As1
         As2 = self.As2
-        return bw * h + ae * (As1 + As2)
+        return bw * h + alpha_e * (As1 + As2)
 
     def vprime_rect(self):
         bw = self.bw
         h = self.h
         d = self.d()
         dprime = self.dprime()
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         Ach = self.Ach_rect()
         As1 = self.As1
         As2 = self.As2
-        return ((bw * h**2) / 2 + ae * (As1 * d + As2 * dprime)) / Ach
+        return ((bw * h**2) / 2 + alpha_e * (As1 * d + As2 * dprime)) / Ach
 
     def v_rect(self):
         return self.h - self.vprime_rect()
@@ -95,10 +95,10 @@ class VerifContrainteELSSectionRectangulaire:
         beff = self.beff
         h = self.h
         hf = self.hf
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         As1 = self.As1
         As2 = self.As2
-        return bw * h + (beff - bw) * hf + ae * (As1 + As2)
+        return bw * h + (beff - bw) * hf + alpha_e * (As1 + As2)
 
     def vprime_te(self):
         bw = self.bw
@@ -107,11 +107,11 @@ class VerifContrainteELSSectionRectangulaire:
         hf = self.hf
         d = self.d()
         dprime = self.dprime()
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         Ach = self.Ach_te()
         As1 = self.As1
         As2 = self.As2
-        return (bw * h**2 / 2 + (beff - bw) * hf**2 / 2 + ae * (As1 * d + As2 * dprime)) / Ach
+        return (bw * h**2 / 2 + (beff - bw) * hf**2 / 2 + alpha_e * (As1 * d + As2 * dprime)) / Ach
 
     def v_te(self):
         return self.h - self.vprime_te()
@@ -128,11 +128,11 @@ class VerifContrainteELSSectionRectangulaire:
         d = self.d()
         dprime = self.dprime()
         vprime = self.vprime_rect()
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         Ach = self.Ach_rect()
         As1 = self.As1
         As2 = self.As2
-        return (bw * h**3.) / 3. + ae * (As1 * d**2. + As2 * dprime**2.) - Ach * vprime**2.
+        return (bw * h**3.) / 3. + alpha_e * (As1 * d**2. + As2 * dprime**2.) - Ach * vprime**2.
 
     def Sct_rect_nonfissuree(self):
         Mser = self.Mser
@@ -147,23 +147,23 @@ class VerifContrainteELSSectionRectangulaire:
         return Mser * vprime / Ich
 
     def Ss1_rect_nonfissuree(self):
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         Mser = self.Mser
         vprime = self.vprime_rect()
         d = self.d()
         Ich = self.Ich_rect()
-        return ae * Mser * (d - vprime) / Ich
+        return alpha_e * Mser * (d - vprime) / Ich
 
     def Ss2_rect_nonfissuree(self):
         if self.As2 == 0:
             return 0
         else:
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             Mser = self.Mser
             vprime = self.vprime_rect()
             dprime = self.dprime()
             Ich = self.Ich_rect()
-            return ae * Mser * (vprime - dprime) / Ich
+            return alpha_e * Mser * (vprime - dprime) / Ich
 
 #   SECTION EN TE
     def Ich_te(self):
@@ -173,11 +173,11 @@ class VerifContrainteELSSectionRectangulaire:
         d = self.d()
         dprime = self.dprime()
         vprime = self.vprime_te()
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         Ach = self.Ach_te()
         As1 = self.As1
         As2 = self.As2
-        return bw * h**3 / 3 + (beff - bw) * hf**3 + ae * (As1 * d**2 + As2 * dprime**2) - Ach * vprime**2
+        return bw * h**3 / 3 + (beff - bw) * hf**3 + alpha_e * (As1 * d**2 + As2 * dprime**2) - Ach * vprime**2
 
     def Sct_te_nonfissuree(self):
         Mser = self.Mser
@@ -192,23 +192,23 @@ class VerifContrainteELSSectionRectangulaire:
         return Mser * vprime / Ich
 
     def Ss1_te_nonfissuree(self):
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         Mser = self.Mser
         vprime = self.vprime_te()
         d = self.d()
         Ich = self.Ich_te()
-        return ae * Mser * (d - vprime) / Ich
+        return alpha_e * Mser * (d - vprime) / Ich
 
     def Ss2_te_nonfissuree(self):
         if self.As2 == 0:
             return 0
         else:
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             Mser = self.Mser
             vprime = self.vprime_te()
             dprime = self.dprime()
             Ich = self.Ich_te()
-            return ae * Mser * (vprime - dprime) / Ich
+            return alpha_e * Mser * (vprime - dprime) / Ich
 
 
 ###############################################################################
@@ -220,25 +220,25 @@ class VerifContrainteELSSectionRectangulaire:
         bw = self.bw
         d = self.d()
         dprime = self.dprime()
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         As1 = self.As1
         As2 = self.As2
 
         a = bw / 2
-        b = ae * (As1 + As2)
-        c = - ae * (As1 * d + As2 * dprime)
+        b = alpha_e * (As1 + As2)
+        c = - alpha_e * (As1 * d + As2 * dprime)
 
         return racinepolynome2(a, b, c, 1)
 
     def Icf_rect(self):
         bw = self.bw
         x1 = self.x1_rect()
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         d = self.d()
         dprime = self.dprime()
         As1 = self.As1
         As2 = self.As2
-        return bw * x1**3 / 3 + ae * As2 * (x1 - dprime)**2 + ae * As1 * (d - x1)**2
+        return bw * x1**3 / 3 + alpha_e * As2 * (x1 - dprime)**2 + alpha_e * As1 * (d - x1)**2
 
     def Sc_rect_fissuree(self):
         Mser = self.Mser
@@ -248,33 +248,33 @@ class VerifContrainteELSSectionRectangulaire:
 
     def Ss1_rect_fissuree(self):
         Mser = self.Mser
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         d = self.d()
         Icf = self.Icf_rect()
         x1 = self.x1_rect()
-        return ae * Mser / Icf * (d - x1)
+        return alpha_e * Mser / Icf * (d - x1)
 
     def Ss2_rect_fissuree(self):
         if self.As2 == 0:
             return 0
         else:
             Mser = self.Mser
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             dprime = self.dprime()
             Icf = self.Icf_rect()
             x1 = self.x1_rect()
-            return ae * Mser / Icf * (x1 - dprime)
+            return alpha_e * Mser / Icf * (x1 - dprime)
 
 #   SECTION EN TE
     def fhf(self):
         beff = self.beff
         hf = self.hf
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         As1 = self.As1
         As2 = self.As2
         d = self.d()
         dprime = self.dprime()
-        return beff * hf**2 / 2 + ae * (As1 + As2) * hf - ae * (As1 * d + As2 * dprime)
+        return beff * hf**2 / 2 + alpha_e * (As1 + As2) * hf - alpha_e * (As1 * d + As2 * dprime)
 
     def x1_te(self):
         if self.isANDansTable():
@@ -282,12 +282,12 @@ class VerifContrainteELSSectionRectangulaire:
             bw = self.beff
             d = self.d()
             dprime = self.dprime()
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             As1 = self.As1
             As2 = self.As2
             a = bw / 2
-            b = ae * (As1 + As2)
-            c = - ae * (As1 * d + As2 * dprime)
+            b = alpha_e * (As1 + As2)
+            c = - alpha_e * (As1 * d + As2 * dprime)
             return racinepolynome2(a, b, c, 1)
         else:
             # Calcul section en Te
@@ -296,12 +296,12 @@ class VerifContrainteELSSectionRectangulaire:
             hf = self.hf
             d = self.d()
             dprime = self.dprime()
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             As1 = self.As1
             As2 = self.As2
             a = bw / 2
-            b = (beff - bw) * hf + ae * (As1 + As2)
-            c = - ((beff - bw) * hf**2 / 2 + ae * (As1 * d + As2 * dprime))
+            b = (beff - bw) * hf + alpha_e * (As1 + As2)
+            c = - ((beff - bw) * hf**2 / 2 + alpha_e * (As1 * d + As2 * dprime))
             return racinepolynome2(a, b, c, 1)
 
     def Icf_te(self):
@@ -309,25 +309,25 @@ class VerifContrainteELSSectionRectangulaire:
             # Calcul section rectangulaire largeur beff
             bw = self.beff
             x1 = self.x1_te()
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             d = self.d()
             dprime = self.dprime()
             As1 = self.As1
             As2 = self.As2
-            return bw * x1**3 / 3 + ae * As2 * (x1 - dprime)**2 + ae * As1 * (d - x1)**2
+            return bw * x1**3 / 3 + alpha_e * As2 * (x1 - dprime)**2 + alpha_e * As1 * (d - x1)**2
         else:
             # Calcul section en Te
             bw = self.bw
             beff = self.beff
             hf = self.hf
             x1 = self.x1_te()
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             d = self.d()
             dprime = self.dprime()
             As1 = self.As1
             As2 = self.As2
             return beff * x1**3 / 3 - (beff - bw) * (x1 - hf)**3 / 3 \
-                + ae * As2 * (x1 - dprime)**2 + ae * As1 * (d - x1)**2
+                + alpha_e * As2 * (x1 - dprime)**2 + alpha_e * As1 * (d - x1)**2
 
     def Sc_te_fissuree(self):
         Mser = self.Mser
@@ -337,22 +337,22 @@ class VerifContrainteELSSectionRectangulaire:
 
     def Ss1_te_fissuree(self):
         Mser = self.Mser
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         d = self.d()
         Icf = self.Icf_te()
         x1 = self.x1_te()
-        return ae * Mser / Icf * (d - x1)
+        return alpha_e * Mser / Icf * (d - x1)
 
     def Ss2_te_fissuree(self):
         if self.As2 == 0:
             return 0
         else:
             Mser = self.Mser
-            ae = self.beton.ae
+            alpha_e = self.beton.alpha_e
             dprime = self.dprime()
             Icf = self.Icf_te()
             x1 = self.x1_te()
-            return ae * Mser / Icf * (x1 - dprime)
+            return alpha_e * Mser / Icf * (x1 - dprime)
 
 ###############################################################################
 # Fonctions d'affichage des résultats
@@ -424,10 +424,10 @@ if __name__ == "__main__":
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
     beton = BetonArme(situation, classeexposition, classeresistance,
-                      acc, act, age, classeciment, ae, fiinft0)
+                      acc, act, age, classeciment, alpha_e, fiinft0)
 
     nuance = "S500A"
     diagramme = "Palier horizontal"

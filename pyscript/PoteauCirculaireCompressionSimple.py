@@ -21,7 +21,7 @@ def resultat_long():
     ter.innerHTML = "<py-terminal id='terminal'></py-terminal>"
         
     situation = SituationProjet("Durable")
-    beton = BetonArme(situation, classeexposition="XC3", classeresistance=classe_resistance, acc=1, act=1, age=28, classeciment="N", ae=15, fiinft0=2)
+    beton = BetonArme(situation, classeexposition="XC3", classeresistance=classe_resistance, acc=1, act=1, age=28, classeciment="N", alpha_e=15, fiinft0=2)
     acier = AcierArmature(situation, nuance=nuance, diagramme="Palier incliné", diametre=8)
     poteau = PoteauCircCompressionSimple(beton, acier, d/100, c/100, l/100, kf, NEd/100, Asl/1e4, repere)
     poteau.resultat_long()
@@ -42,7 +42,7 @@ def resultat_court():
     ter.innerHTML = "<py-terminal id='terminal'></py-terminal>"
     
     situation = SituationProjet("Durable")
-    beton = BetonArme(situation, classeexposition="XC3", classeresistance=classe_resistance, acc=1, act=1, age=28, classeciment="N", ae=15, fiinft0=2)
+    beton = BetonArme(situation, classeexposition="XC3", classeresistance=classe_resistance, acc=1, act=1, age=28, classeciment="N", alpha_e=15, fiinft0=2)
     acier = AcierArmature(situation, nuance=nuance, diagramme="Palier incliné", diametre=8)
     poteau = PoteauCircCompressionSimple(beton, acier, d/100, c/100, l/100, kf, NEd/100, Asl/1e4, repere)
     poteau.resultat_court()
@@ -63,7 +63,7 @@ def minute():
     ter.innerHTML = "<py-terminal id='terminal'></py-terminal>"
         
     situation = SituationProjet("Durable")
-    beton = BetonArme(situation, classeexposition="XC3", classeresistance=classe_resistance, acc=1, act=1, age=28, classeciment="N", ae=15, fiinft0=2)
+    beton = BetonArme(situation, classeexposition="XC3", classeresistance=classe_resistance, acc=1, act=1, age=28, classeciment="N", alpha_e=15, fiinft0=2)
     acier = AcierArmature(situation, nuance=nuance, diagramme="Palier incliné", diametre=8)
     poteau = PoteauCircCompressionSimple(beton, acier, d/100, c/100, l/100, kf, NEd/100, Asl/1e4, repere)
     poteau.minute()

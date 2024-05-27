@@ -107,9 +107,9 @@ if __name__ == "__main__":
     gamma_c = situation.gamma_c()
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
     
     nuance = "S500A"
     diagramme = "Palier horizontal"

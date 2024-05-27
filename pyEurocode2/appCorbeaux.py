@@ -303,7 +303,7 @@ if __name__ == "__main__":
         acc=1,
         act=1,
         age=28,
-        ae=15,
+        alpha_e=15,
         fiinft0=2,
     )
     acier = AcierArmature(

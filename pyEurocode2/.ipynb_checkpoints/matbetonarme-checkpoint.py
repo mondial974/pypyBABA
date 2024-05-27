@@ -55,7 +55,7 @@ class BetonArme:
     def Eceff(self):
         return self.Ecm() / (1 + self.fiinft0)
     
-    def ae(self):
+    def alpha_e(self):
         return ES / self.Eceff()
         
     def beta_cc_t(self):
@@ -111,7 +111,7 @@ class BetonArme:
         print(f"fiinft0 = {self.fiinft0}")
         print(f"Ecm = {self.Ecm():.0f} MPa")
         print(f"Eceff = {self.Eceff():.0f} MPa")
-        print(f"ae = {self.ae()}")
+        print(f"alpha_e = {self.alpha_e()}")
         print("-" * 21)
         
         print(f"age = {self.age} jours")

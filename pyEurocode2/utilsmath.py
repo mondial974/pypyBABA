@@ -23,4 +23,4 @@ def racinepolynome2(a, b, c, i):
 def racinepolynome3(a, b, c, d, i):
     def f(x, a, b, c, d):
         return a * x**3. + b * x**2. + c * x + d
-    return fsolve(f, 0.2, argamma_s = (a, b, c, d))[i]
+    return fsolve(f, 0.2, args = (a, b, c, d))[i]

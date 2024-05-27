@@ -28,13 +28,13 @@ def resultat_long():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
     diagramme = "Palier horizontal"
     diametre = 8
     
     situation = SituationProjet(situation)
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
     acier = AcierArmature(situation, nuance, diagramme, diametre)
     fsrect = FlexionSimpleSectionRectangulaire(beton, acier, bw, h, c1, c2, Mu, Mser, As2imposee)
     fsrect.resultat_long()

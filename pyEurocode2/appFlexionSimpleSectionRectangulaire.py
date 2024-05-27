@@ -7,9 +7,6 @@ from coresituationprojet import *
 from utilsprint import *
 from utilsmath import racinepolynome3
 
-import warningamma_s
-warningamma_s.filterwarningamma_s('ignore', 'The iteration is not making good progress')
-
 
 class FlexionSimpleSectionRectangulaire():
 
@@ -86,17 +83,17 @@ class FlexionSimpleSectionRectangulaire():
         fcd = self.beton.fcd()
         eta = self.beton.eta()
         lmbda = self.beton.lmbda()
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         gamma = self.gamma()
         Scbar = self.beton.Scbar()
 
-        a = 3.75 * fyd**2. - 5. * ae**2. * eta * fcd * gamma * Scbar
-        b = 25. * ae**2. * eta * fcd * gamma * Scbar + 15. * ae * eta * fcd * fyd
-        c = -35. * ae**2. * eta * fcd * gamma * Scbar - 15. * ae * eta * fcd * fyd
-        d = 15. * ae**2. * eta * fcd * gamma * Scbar
+        a = 3.75 * fyd**2. - 5. * alpha_e**2. * eta * fcd * gamma * Scbar
+        b = 25. * alpha_e**2. * eta * fcd * gamma * Scbar + 15. * alpha_e * eta * fcd * fyd
+        c = -35. * alpha_e**2. * eta * fcd * gamma * Scbar - 15. * alpha_e * eta * fcd * fyd
+        d = 15. * alpha_e**2. * eta * fcd * gamma * Scbar
 
         a1 = racinepolynome3(a, b, c, d, 0)
-        au = a1**2. / (2. * ae * lmbda * eta * (1. - a1)) * fyd / fcd
+        au = a1**2. / (2. * alpha_e * lmbda * eta * (1. - a1)) * fyd / fcd
 
         mulu = lmbda * au * (1. - lmbda / 2. * au)
         return round(mulu, 4)
@@ -179,21 +176,21 @@ class FlexionSimpleSectionRectangulaire():
         return ulu * b * d**2 * fcd
 
     def Ss1e(self):
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         fck = self.beton.fck()
         gamma = self.gamma()
-        A = 0.5 / ae + 13
-        B = 6517 / ae + 1
-        return (A * fck + B) - 0.6 * ae * gamma * fck
+        A = 0.5 / alpha_e + 13
+        B = 6517 / alpha_e + 1
+        return (A * fck + B) - 0.6 * alpha_e * gamma * fck
 
     def Ss2e(self):
-        ae = self.beton.ae
+        alpha_e = self.beton.alpha_e
         fck = self.beton.fck()
         gamma = self.gamma()
         deltaprime = self.deltaprime()
-        A = 0.5 / ae + 13
-        B = 6517 / ae + 1
-        return 0.6 * ae * gamma * fck - deltaprime * (A * fck + B)
+        A = 0.5 / alpha_e + 13
+        B = 6517 / alpha_e + 1
+        return 0.6 * alpha_e * gamma * fck - deltaprime * (A * fck + B)
 
     def As2_aac_acni(self):
         MEd = self.Mu
@@ -292,7 +289,7 @@ class FlexionSimpleSectionRectangulaire():
         self.resultat_court()
         printligne("Acier comprimé ?", "-", "-", f"{self.isaciercomprime()}")
         printligne("-", "fcd", "-", f"{self.beton.fcd():.4f}")
-        printligne("-", "ae", "-", f"{self.beton.ae:.4f}")
+        printligne("-", "alpha_e", "-", f"{self.beton.alpha_e:.4f}")
         printligne("-", "eta", "-", f"{self.beton.eta():.4f}")
         printligne("-", "Scbar", "-", f"{self.beton.Scbar():.4f}")
         printligne("-", "gamma", "-", f"{self.gamma():.4f}")
@@ -320,7 +317,7 @@ if __name__ == '__main__':
     nuance = "S500A"
     situation = SituationProjet('Durable')
     beton = BetonArme(situation, classeexposition='XS1', classeresistance="C25/30",
-                      acc=1, act=1, age=28, classeciment='N', ae=15, fiinft0=2)
+                      acc=1, act=1, age=28, classeciment='N', alpha_e=15, fiinft0=2)
     acier = AcierArmature(
         situation, nuance, diagramme="Palier horizontal", diametre=8)
     fs = FlexionSimpleSectionRectangulaire(

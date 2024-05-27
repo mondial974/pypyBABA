@@ -27,14 +27,14 @@ def resultat_long():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
     nuance = "S500A"
     diagramme = "Palier horizontal"
     diametre = 8
     
     situation = SituationProjet(situation)
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
     acier = AcierArmature(situation, nuance, diagramme, diametre)
     vc = VerifContrainteELSSectionRectangulaire(beton, acier, Mser, bw, beff, h, hf, c1, c2, As1, As2)
     vc.resultat_long()

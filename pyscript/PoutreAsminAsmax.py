@@ -18,7 +18,7 @@ def resultat_long():
     situation = SituationProjet("Durable")
     acier = AcierArmature(situation, nuance, diagramme="Palier horizontal", diametre=8)    
     beton = BetonArme(situation=situation, classeexposition="XC3", classeresistance=classeresistance,
-                      acc=1, act=1, age=28, classeciment="N", ae=15, fiinft0=2)
+                      acc=1, act=1, age=28, classeciment="N", alpha_e=15, fiinft0=2)
     poutre = DCPoutreRectangulaire(beton, acier, bw, h, c)
     fck = beton.fck()
     fcm = beton.fcm()

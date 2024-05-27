@@ -23,10 +23,10 @@ def resultat_long():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
     beton = BetonArme(situation, classeexposition, classeresistance,
-                      acc, act, age, classeciment, ae, fiinft0)
+                      acc, act, age, classeciment, alpha_e, fiinft0)
 
     predim = PredimSectionRectangulaireFlexionSimple(
         situation, beton, Mu, mu_lu, k)
@@ -52,10 +52,10 @@ def resultat_court():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
     beton = BetonArme(situation, classeexposition, classeresistance,
-                      acc, act, age, classeciment, ae, fiinft0)
+                      acc, act, age, classeciment, alpha_e, fiinft0)
 
     predim = PredimSectionRectangulaireFlexionSimple(
         situation, beton, Mu, mu_lu, k)

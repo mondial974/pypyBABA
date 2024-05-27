@@ -69,9 +69,9 @@ class SemelleFilante():
         act = 1
         age = 28
         classeciment = "N"
-        ae = 15
+        alpha_e = 15
         fiinft0 = 2
-        beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+        beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
         acier = self.acier
         h = self.dimHsem()
         c= self.c1
@@ -91,9 +91,9 @@ class SemelleFilante():
         act = 1
         age = 28
         classeciment = "N"
-        ae = 15
+        alpha_e = 15
         fiinft0 = 2
-        beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+        beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
         acier = self.acier
         h = self.dimHsem()
         c= self.c1

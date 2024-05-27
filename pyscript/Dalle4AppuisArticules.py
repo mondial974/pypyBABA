@@ -36,7 +36,7 @@ def resultat_long():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
     # nuance = "S500A"
     diagramme = "Palier horizontal"
@@ -49,7 +49,7 @@ def resultat_long():
     leffy = traveey.leff()
     
     situation = SituationProjet(situation)
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
     acier = AcierArmature(situation, nuance, diagramme, diametre)
     dalle = Dalle4AppuisArticules(situation, beton, acier, G, Q, AC, leffx, leffy, h, c)
     dalle.resultat_long()
@@ -84,7 +84,7 @@ def resultat_court():
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
     # nuance = "S500A"
     diagramme = "Palier horizontal"
@@ -97,7 +97,7 @@ def resultat_court():
     leffy = traveey.leff()
     
     situation = SituationProjet(situation)
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
     acier = AcierArmature(situation, nuance, diagramme, diametre)
     dalle = Dalle4AppuisArticules(situation, beton, acier, G, Q, AC, leffx, leffy, h, c)
     dalle.resultat_court()
@@ -132,7 +132,7 @@ def resultat_court():
 #     act = 1
 #     age = 28
 #     classeciment = "N"
-#     ae = 15
+#     alpha_e = 15
 #     fiinft0 = 2
 #     # nuance = "S500A"
 #     diagramme = "Palier horizontal"
@@ -145,7 +145,7 @@ def resultat_court():
 #     leffy = traveey.leff()
     
 #     situation = SituationProjet(situation)
-#     beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+#     beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
 #     acier = AcierArmature(situation, nuance, diagramme, diametre)
 #     dalle = Dalle4AppuisArticules(situation, beton, acier, G, Q, AC, leffx, leffy, h, c)
 #     dalle.minute()

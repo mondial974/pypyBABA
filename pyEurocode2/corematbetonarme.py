@@ -10,7 +10,7 @@ from utilsprint import *
 
 class BetonArme:
 
-    def __init__(self, situation, classe_exposition='XC3', classe_resistance='C25/30', alpha_cc=1, alpha_ct=1, age=28, classe_ciment='N', _alpha_e=0, fi_infini_t0=2,
+    def __init__(self, situation, classe_exposition='XC3', classe_resistance='C25/30', alpha_cc=1, alpha_ct=1, age=28, classe_ciment='N', alpha_e=0, fi_infini_t0=2,
                  h=0, maitrise_fissuration=True):
         
         self.situation = situation
@@ -21,7 +21,7 @@ class BetonArme:
         self.gamma_c = self.situation.gamma_c()
         self.age = age
         self.classe_ciment = classe_ciment
-        self._alpha_e = _alpha_e
+        self.alpha_e = alpha_e
         self.fi_infini_t0 = fi_infini_t0
         self.h = h
         self.maitrise_fissuration = maitrise_fissuration
@@ -232,7 +232,7 @@ class BetonArme:
         tableau.add_row("Coefficient de fluage", "fiinft0", f"{self.fiinft0}", "-")
         tableau.add_row("Module d'elacticité sécant", "Ecm", f"{self.Ecm():.0f}", "MPa")
         tableau.add_row("Module d'élasticité effectif", "Eceff", f"{self.Eceff():.0f}", "MPa")
-        tableau.add_row("Coefficient d'équivalence", "ae", f"{self.alphae():.0f}", "-")
+        tableau.add_row("Coefficient d'équivalence", "alpha_e", f"{self.alphae():.0f}", "-")
         tableau.add_row("", "", "", "")
         tableau.add_row("Age du béton", "age", f"{self.age}", "jours")
         tableau.add_row("", "betacc(t)", f"{self.beta_cc_t():.2f}", "-")

@@ -25,9 +25,9 @@ def resultatLong():
     act = 1 
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
-    beton = BetonArme(situation, classeexposition, classeeesistance, acc, act, age, classeciment, ae, fiinft0)
+    beton = BetonArme(situation, classeexposition, classeeesistance, acc, act, age, classeciment, alpha_e, fiinft0)
     
     diagramme = "Palier horizontal"
     diametre = 8

@@ -142,9 +142,9 @@ if __name__ == "__main__":
     act = 1
     age = 28
     classeciment = "N"
-    ae = 15
+    alpha_e = 15
     fiinft0 = 2
-    b = BetonArme(s, classeexposition, classeresistance, acc, act, age, classeciment, ae, fiinft0)
+    b = BetonArme(s, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
     
     nuance = "S500B"
     diagramme = "Palier horizontal"
