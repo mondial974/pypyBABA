@@ -115,20 +115,20 @@ class SemelleIsolee():
     def smax_slabs_princ(self):
         situation = "Durable"
         situation = SituationProjet(situation)
-        classeexposition = "XC2"
-        classeresistance = "C25/30"
-        acc = 1
-        act = 1
-        age = 28
-        classeciment = "N"
-        alpha_e = 15
-        fiinft0 = 2
-        beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
+        classe_exposition = self.beton.classe_exposition
+        classe_resistance = self.beton.classe_resistance
+        alpha_cc = self.beton.alpha_cc
+        alpha_ct = self.beton.alpha_ct
+        age = self.beton.age
+        classe_ciment = self.beton.classe_ciment
+        alpha_e = self.beton.alpha_e
+        fi_infini_t0 = self.beton.fi_infini_t0
+        beton = BetonArme(situation, classe_exposition, classe_resistance, alpha_cc, alpha_ct, age, classe_ciment, alpha_e, fi_infini_t0, h=0, maitrise_fissuration=True)
         acier = self.acier
         h = self.dimHsem()
         enr = self.enr
-        As = self.As1
-        dcdalle = DC_Dalle(beton, acier, h , c , As)
+        As = self.dimAsAsem()
+        dcdalle = DC_Dalle(beton, acier, h , enr , As)
         return dcdalle.smax_slabs_princ()
     
     def dimAs_second(self):
@@ -137,27 +137,68 @@ class SemelleIsolee():
     def smax_slabs_second(self):
         situation = "Durable"
         situation = SituationProjet(situation)
-        classeexposition = "XC2"
-        classeresistance = "C25/30"
-        acc = 1
-        act = 1
-        age = 28
-        classeciment = "N"
-        alpha_e = 15
-        fiinft0 = 2
-        beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
+        classe_exposition = self.beton.classe_exposition
+        classe_resistance = self.beton.classe_resistance
+        alpha_cc = self.beton.alpha_cc
+        alpha_ct = self.beton.alpha_ct
+        age = self.beton.age
+        classe_ciment = self.beton.classe_ciment
+        alpha_e = self.beton.alpha_e
+        fi_infini_t0 = self.beton.fi_infini_t0
+        beton = BetonArme(situation, classe_exposition, classe_resistance, alpha_cc, alpha_ct, age, classe_ciment, alpha_e, fi_infini_t0, h=0, maitrise_fissuration=True)
         acier = self.acier
         h = self.dimHsem()
-        c= self.c1
-        As = self.dimAs_princ()
-        dcdalle = DC_Dalle(beton, acier, h , c , As)
+        enr = self.enr
+        As = self.dimAsAsem()
+        dcdalle = DC_Dalle(beton, acier, h , enr , As)
         return dcdalle.smax_slabs_second()
+    
+    
+    def resultat_court(self):
+        print("RESULTATS NON FINALISES")
+        print(f"SI {self.dimAsem()*100:.0f} x {self.dimBsem()*100:.0f} x {self.dimHsem()*100:.0f} ht")
+        print('')
+        print(f"AsAsem = {self.dimAsAsem()*1e4:.2f} cm2/l")
+        print(f"Esp max smax1 = {self.smax_slabs_princ()*100:.0f} cm")
+        print('')
+        print(f"AsBsem = {self.dimAsBsem()*1e4:.2f} cm2")
+        print(f"Esp max smax2 = {self.smax_slabs_second()*100:.0f} cm")
+        print('')
 
+        if self.SELS() <= self.SsolELS:
+            print("SresELS < SadmELS ==> VERIFIE")
+        else:
+            print("SresELS > SadmELS ==> NON VERIFIE")
+        
+        if self.SELU() <= self.SsolELU:
+            print("SresELU < SadmELU ==> VERIFIE")
+        else:
+            print("SresELU > SadmELU ==> NON VERIFIE")
+
+        print('')
+        if self.dimDsem() > (self.dimBsem() - self.Bpot) / 4:
+            print("POINCONNEMENT VERIFIE")
+        else:
+            print("POINCONNEMENT NON VERIFIE")
+        
+        if self.AsAsem != 0:
+            if self.AsAsem < self.dimAsAsem() :
+                print(f'AsAsem réel ({self.AsAsem*1e4:.2f} cm2/ml) < AsAsem calculée ({self.AsAsem()*1e4:.2f} cm2/ml) => NON VERIFIE')
+            else:
+                print(f'AsAsem réel ({self.AsAsem*1e4:.2f} cm2/ml) > AsAsem calculée ({self.AsAsem()*1e4:.2f} cm2/ml) => VERIFIE')
+        
+        if self.AsBsem != 0:
+            if self.AsBsem < self.dimAsAsem() :
+                print(f'AsBsem réel ({self.AsBsem*1e4:.2f} cm2/ml) < AsBsem calculée ({self.AsBsem()*1e4:.2f} cm2/ml) => NON VERIFIE')
+            else:
+                print(f'AsBsem réel ({self.AsBsem*1e4:.2f} cm2/ml) > AsBsem calculée ({self.AsBsem()*1e4:.2f} cm2/ml) => VERIFIE')
+    
     def resultat_long(self):
         self.resultat_court()
         printentete()  
         print('Géométrie')
         printligne("Largeur du mur", "Bmur", "cm", f'{self.Bmur*100:.2f}')
+        
         printligne("Largeur semelle", "Bsem", "cm", f'{self.dimBsem()*100:.2f}')
         printligne("Hauteur semelle", "Hsem", "cm", f'{self.dimHsem()*100:.2f}')
         printligne("Hauteur utile semelle", "Dsem", "cm", f'{self.dimDsem()*100:.2f}')
@@ -187,40 +228,9 @@ class SemelleIsolee():
         print('')
         
 
-    def resultat_court(self):
-        print(f"SF {self.dimBsem()*100:.0f} x {self.dimHsem()*100:.0f} ht")
-        print('')
-        print(f"As1 = {self.dimAs_princ()*1e4:.2f} cm2/l")
-        print(f"Esp max smax1 = {self.smax_slabs_princ()*100:.0f} cm")
-        print('')
-        print(f"As2 = {self.dimAs_second()*1e4:.2f} cm2")
-        print(f"Esp max smax2 = {self.smax_slabs_second()*100:.0f} cm")
-        print('')
 
-        if self.SELS() <= self.SsolELS:
-            print("SresELS < SadmELS ==> VERIFIE")
-        else:
-            print("SresELS > SadmELS ==> NON VERIFIE")
-        
-        if self.SELU() <= self.SsolELU:
-            print("SresELU < SadmELU ==> VERIFIE")
-        else:
-            print("SresELU > SadmELU ==> NON VERIFIE")
-
-        print('')
-        if self.dimDsem() > (self.dimBsem() - self.Bmur) / 4:
-            print("POINCONNEMENT VERIFIE")
-        else:
-            print("POINCONNEMENT NON VERIFIE")
-        
-        if self.As1 != 0:
-            if self.As1 < self.dimAs_princ() :
-                print(f'As1 réel ({self.As1*1e4:.2f} cm2/ml) < As1 calculée ({self.dimAs_princ()*1e4:.2f} cm2/ml) => NON VERIFIE')
-            else:
-                print(f'As1 réel ({self.As1*1e4:.2f} cm2/ml) > As1 calculée ({self.dimAs_princ()*1e4:.2f} cm2/ml) => VERIFIE')
 
          
-
 if __name__ == "__main__":
     fyk = 500
     Nu = 30 / 100

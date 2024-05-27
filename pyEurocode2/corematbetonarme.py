@@ -106,10 +106,10 @@ class BetonArme:
     def get_alpha_e(self):
         Eceff = self.Eceff()
         #---
-        if self._alpha_e == 0:
+        if self.alpha_e == 0:
             alpha_e = ES / Eceff
         else:
-            alpha_e = self._alpha_e
+            alpha_e = self.alpha_e
         return alpha_e
             
     def s_ciment(self):
@@ -219,9 +219,9 @@ class BetonArme:
         tableau.add_column("Symbole", justify="left")
         tableau.add_column("Valeur", justify="right")
         tableau.add_column("unité", justify="left")
-        tableau.add_row("Classe d'exposition", "-", f"{self.classeexposition}", "-")
-        tableau.add_row("Classe de résistance", "-", f"{self.classeresistance}", "-")
-        tableau.add_row("Classe de ciment", "-", f"{self.classeciment}", "-")
+        tableau.add_row("Classe d'exposition", "-", f"{self.classe_exposition}", "-")
+        tableau.add_row("Classe de résistance", "-", f"{self.classe_resistance}", "-")
+        tableau.add_row("Classe de ciment", "-", f"{self.classe_ciment}", "-")
         tableau.add_row("", "s", f"{self.s_ciment()}", "-")
         tableau.add_row("Résistance caractéritique en compression", "fck", f"{self.fck():.0f}", "MPa")
         tableau.add_row("", "fck_cube", f"{self.fck_cube():.0f}", "MPa")

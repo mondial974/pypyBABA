@@ -8,6 +8,7 @@ from = "/pyEurocode2"
 files = ["appCorbeaux.py",
 "appPoutreEncocheSurAppui.py",
 "appSemelleFilanteChargeCentree.py",
+"appSemelleIsoleeCentree.py",
 "appPoteauRectangulaireCompressionSimple.py",
 "appPoteauCirculaireCompressionSimple.py",
 "appDalle4AppuisArticules.py",
@@ -30,4 +31,4 @@ files = ["appCorbeaux.py",
 "pyec14vent.py",
 "utilsmath.py",
 "utilsprint.py",
-"appVoileDrapeau1.py"]
+"appVoileDrapeau.py"]

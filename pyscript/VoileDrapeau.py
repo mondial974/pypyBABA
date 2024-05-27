@@ -3,7 +3,7 @@ from js import document as _DOC
 from coresituationprojet import *
 from corematacierarmature import *
 from corematbetonarme import *
-from appVoileDrapeau1 import *
+from appVoileDrapeau import *
 
 def resultatLong():
     repere = Element("repere").element.value

@@ -327,7 +327,7 @@ class Dalle4AppuisArticules:
         printsep()
         print("")
         print("Béton")
-        printligne("    Classe de résistance", "-", "-", f"{self.beton.classeresistance}")
+        printligne("    Classe de résistance", "-", "-", f"{self.beton.classe_resistance}")
         printligne("    Résistance à la compression", "fck", "MPa", f"{self.beton.fck():.2f}")
         printligne("    Résistance de calcul", "fcd", "MPa", f"{self.beton.fcd():.2f}")
         printligne("    Résistance de calcul", "fcd", "MPa", f"{self.beton.fcd():.2f}")

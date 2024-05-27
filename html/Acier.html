@@ -8,7 +8,7 @@
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <script> 
             $(function(){
-                $(".header").load("/html/menu.html");
+                $(".header").load("/html/menu.html"); 
             });
         </script>
         <py-config src="/toml/custom_py-config.toml"></py-config>
@@ -17,7 +17,7 @@
 
     <body>
         <div class="header"></div>
-        <h1>Semelle filante centrée</h1><br>
+        <h1>Acier de béton armé</h1><br>
 
         <div class="container">
             <div class="itemdonnee">
@@ -30,7 +30,7 @@
                     <option value="Accidentelle">Accidentelle</option>
                 </select><br /><br />
 
-                <h2>Acier pour armatures</h2>
+                <h2>Acier</h2>
                 <label for="nuance">Nuance</label>
                 <select name="nuance" id="nuance">
                     <option value="S500A" selected>S500A</option>
@@ -40,41 +40,43 @@
                     <option value="S400A">S400A</option>
                     <option value="S400B">S400B</option>
                     <option value="S400C">S400C</option>
+                </select><br />
+
+                <label for="diagramme">Diagramme</label>
+                <select name="diagramme" id="diagramme">
+                    <option value="Palier horizontal" selected>Palier horizontal</option>
+                    <option value="Palier incliné">Palier incliné</option>
                 </select><br /><br />
 
-                <h2>Contrainte admissible du sol</h2>
-                <label for="SsolELU">Sigma sol ELU</label><input type="number"
-                    id="SsolELU" value="300" /><span>&ensp; kPa</span><br />
-                <label for="SsolELS">Sigma sol ELS</label><input type="number"
-                    id="SsolELS" value="200" /><span>&ensp; kPa</span><br /><br />
-
-                <h2>Descente de charge</h2>
-                <label for="Nu">Nu</label><input type="number" id="Nu" value="30" /><span>&ensp;
-                    T/ml</span><br />
-                <label for="Nser">Nser</label><input type="number" id="Nser"
-                    value="22" /><span>&ensp; T/ml</span><br /><br />
-
-                <h2>Géométrie</h2>
-                <label for="Bmur">Largeur du mur</label><input type="number"
-                    id="Bmur" value="18" /><span>&ensp; cm</span><br />
-                <label for="Bsem">Largeur semelle</label><input type="number"
-                    id="Bsem" value="0" min="40" step="5" /><span>&ensp; cm</span><br />
-                <label for="Hsem">Hauteur semelle</label><input type="number"
-                    id="Hsem" value="0" min="20" step="5" /><span>&ensp; cm</span><br />
-                <label for="c1">Enrobage</label><input type="number" id="c1"
-                    value="5" /><span>&ensp; cm</span><br /><br />
-
-                <h2>Armatures</h2>
-                <label for="As1">Section d'armature principale As1</label><input
-                    type="number" id="As1" value="0" /><span>&ensp; cm2/ml</span><br />
+                <h2>Barre</h2>
+                <label for="diametre">Diamètre (mm)</label>
+                <select name="diametre" id="diametre">
+                    <option value=3>3</option>
+                    <option value=3.5>3.5</option>
+                    <option value=4>4</option>
+                    <option value=4.5>4.5</option>
+                    <option value=5>5</option>
+                    <option value=5.5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8 selected>8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                    <option value=12>12</option>
+                    <option value=14>14</option>
+                    <option value=16>16</option>
+                    <option value=20>20</option>
+                    <option value=25>25</option>
+                    <option value=32>32</option>
+                    <option value=40>40</option>
+                </select><br />
             </div>
 
             <div class="itemresultat">
                 <h2>Résultats</h2>
-                <button id="btn-resultat" py-click="resultat_court()">Court</button>
                 <button id="btn-resultat" py-click="resultat_long()">Long</button>
                 <button id="impression" onclick="window.print()">Imprimer</button> <br /><br />
-                <py-script src="/pyscript/SemelleFilanteCentree.py"></py-script>
+                <py-script src="/pyscript/Acier.py"></py-script>
                 <div id="resultat"></div>
             </div>
         </div>
