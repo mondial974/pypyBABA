@@ -183,14 +183,15 @@ class PoteauRectCompressionSimple:
         
 if __name__ == "__main__":
     situation = SituationProjet('Durable')
-    beton = BetonArme(situation, classeexposition="XC3", classeresistance="C25/30", acc=1, act=1, age=28, classeciment="N", alpha_e=15, fiinft0=2)
+    beton = BetonArme(situation, classe_exposition="XC3", classe_resistance="C25/30", alpha_cc=1, alpha_ct=1, age=28, classe_ciment="N", alpha_e=15, fi_infini_t0=2,
+                 h=0, maitrise_fissuration=True)
     acier = AcierArmature(situation, nuance='S500B', diagramme='Palier incliné', diametre=8)
-    b = 30 / 100
-    h = 20 / 100
-    c = 3.5 / 100
-    l = 280 / 100
-    kf = 0.7
+    b = 84 / 100
+    h = 60 / 100
+    c = 6 / 100
+    l = 60 / 100
+    kf = 2
     Asl = 0 / 1e4
-    NEd = 65 / 100
+    NEd = 20 / 100
     poteau = PoteauRectCompressionSimple(beton, acier, b, h, c, l, kf, NEd, Asl)
-    poteau.resultat_court()
+    poteau.resultat_long()

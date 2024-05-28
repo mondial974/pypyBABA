@@ -6,7 +6,7 @@ from utilsprint import *
 from corematbetonarme import *
 from corematacierarmature import *
 
-C = 0.40
+C = 0.45
 MU = 0.70
 
 class SurfaceReprise():
@@ -19,7 +19,7 @@ class SurfaceReprise():
         self.bi = bi
         self.beta = beta
         self.As = As
-        self.alpha = alpha
+        self.alpha = radians(alpha)
         self.sigma_n = sigma_n
         
         
@@ -33,18 +33,25 @@ class SurfaceReprise():
         bi = self.bi
         return beta * VEd / (z * bi)
     
-    def vRdi(self):
+    def vRdi1(self):
         fctd = self.beton.fctd()
-        fcd = self.beton.fcd()
         fyd = self.acier.fyd()
-        alpha = radians(self.alpha)
+        alpha = self.alpha
         sigma_n = self.sigma_n
         rho = self.rho()
-        nu = self.nu()
-                
+        #---                
         vRdi1 = C * fctd + MU * sigma_n + rho * fyd * (MU * sin(alpha) + cos(alpha))
+        return vRdi1
+        
+    def vRdi2(self):
+        fcd = self.beton.fcd()
+        nu = self.nu()
+        #---        
         vRdi2  = 0.5 * nu * fcd
-        return min(vRdi1, vRdi2)
+        return vRdi2
+                
+    def vRdi(self):
+        return min(self.vRdi1(), self.vRdi2())
         
     
 ###############################################################################
@@ -136,29 +143,41 @@ if __name__ == "__main__":
     situation = "Durable"
     s = SituationProjet(situation)
     
-    classeexposition = "XC3"
-    classeresistance = "C25/30"
-    acc = 1
-    act = 1
+    classe_exposition = "XC3"
+    classe_resistance = "C25/30"
+    alpha_cc = 1
+    alpha_ct = 1
     age = 28
-    classeciment = "N"
+    classe_ciment = "N"
     alpha_e = 15
-    fiinft0 = 2
-    b = BetonArme(s, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiinft0)
+    fi_infini_t0 = 2
+    b = BetonArme(s, classe_exposition, classe_resistance, alpha_cc, alpha_ct, age, classe_ciment, alpha_e, fi_infini_t0,
+                 h=0, maitrise_fissuration=True)
     
     nuance = "S500B"
     diagramme = "Palier horizontal"
-    diametre = 8
+    diametre = 32
     a = AcierArmature(s, nuance, diagramme, diametre)
     
     
     VEd = 30.4 / 100
-    z = 60 / 100
-    bi = (2 * 38 + 2 * 54) / 100
+    z = 250 / 100
+    bi = 20 / 100
     beta = 1
-    As = 0 / 1e4
+    As = a.As_nb_diametre(10)
     alpha = 90
-    sigma_n = 0 / 100
+    sigma_n = 40 / 100
     surface = SurfaceReprise(b, a, VEd, z, bi, beta, As, alpha, sigma_n)
     
     surface.resultat_court()
+    print(surface.acier.fyd())
+    print(surface.rho())
+    print(surface.beton.fctd())
+    print(surface.beton.fcd())
+    print(surface.Ai())
+    print(surface.As*1e4)
+    print(surface.nu())
+    print(surface.vRdi1())
+    print(surface.vRdi2())
+    print(surface.vRdi())
+    print(surface.vEdi())

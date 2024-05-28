@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./FichiersAFournirSiteEyrolles",
+        "./FichiersAFournirSiteEyrolles/EC2"
+    ]
+}

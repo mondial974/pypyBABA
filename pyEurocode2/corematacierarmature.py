@@ -50,6 +50,9 @@ class AcierArmature:
         #---
         masse_lineaire_barre = aire_barre * RHO_ACIER 
         return masse_lineaire_barre
+    
+    def As_nb_diametre(self, nb):
+        return self.aire_barre() * nb
 
        
 ###############################################################################
