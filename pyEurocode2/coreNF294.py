@@ -24,18 +24,18 @@ def id(dd, De, B, c, gamma, phi):
     if phi > 0 and c > 0:
         return idcf(dd, De, B, c, gamma, phi)
 
-Hx = 15 / 100
-Hy = 5 / 100
+Hx = 17.52 / 100
+Hy = 7.37 / 100
 Hd = sqrt(Hx**2 + Hy**2)
 
-Vd = 20 / 100
+Vd = 83.78 / 100
 
 dd = atan(Hd / Vd)
-De = 100 / 100
-B = 300 / 100
+De = 160 / 100
+B = 858 / 100
 gamma = 1.8 / 100
 c = 0 / 1000
-phi = radians(25)
+phi = radians(30)
 
 print(degrees(dd))
 print(id(dd, De, B, c, gamma, phi))

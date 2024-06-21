@@ -170,7 +170,7 @@ class PoutreVoileBAEL:
         printfintab()
 
         print("Béton")
-        printligne("Classe de résistance", "-", "-", f"{self.beton.classeresistance}")
+        printligne("Classe de résistance", "-", "-", f"{self.beton.classe_resistance}")
         printligne("Résistance caractéristique à la compression", "fck", "MPa", f"{self.beton.fck():.2f}")
         print("")
         printsep()
@@ -227,7 +227,7 @@ class PoutreVoileBAEL:
         print(f"### Données d'entrée")
         print(f"- Situation {self.beton.situation.situation}")
         print(f"- Acier {self.acier.nuance}")
-        print(f"- Béton {self.beton.classeresistance}")
+        print(f"- Béton {self.beton.classe_resistance}")
         print(f"- Portée en nu = {self.lo*100:.2f} cm")
         print(f"- Portée entre axe = {self.lt*100:.2f} cm")
         print(f"- Hauteur = {self.h*100:.2f} cm")
@@ -252,15 +252,15 @@ if __name__ == "__main__":
     situation = "Durable"
     situation = SituationProjet(situation)
 
-    classeexposition = "XC3"
-    classeresistance = "C25/30"
-    acc = 1
-    act = 1
+    classe_exposition = "XC3"
+    classe_resistance = "C25/30"
+    alpha_cc = 1
+    alpha_ct = 1
     age = 28
-    classeciment = "N"
+    classe_ciment = "N"
     alpha_e = 15
-    fiint0 = 2
-    beton = BetonArme(situation, classeexposition, classeresistance, acc, act, age, classeciment, alpha_e, fiint0)
+    fi_infini_t0 = 2
+    beton = BetonArme(situation, classe_exposition, classe_resistance, alpha_cc, alpha_ct, age, classe_ciment, alpha_e, fi_infini_t0)
 
     nuance = "S500A"
     diagramme = "Palier horizontal"

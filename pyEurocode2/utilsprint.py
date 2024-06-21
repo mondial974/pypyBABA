@@ -25,3 +25,18 @@ def printNONVERIFIE(message):
     
 def printMESSAGE(message):
     print("              ", message)  
+
+
+def printfile(texte, f):
+    print(texte, file=f)
+
+def printentetefile(f):
+    print("="*77, file=f)
+    print(f'{"DESIGNATION":45} {"SYMBOLE":<10} {"VALEUR":^10} {" "} {"UNITE":^10}', file=f)
+    printfile("="*77, f)
+
+def printlignefile(designation, symbole, unite, valeur, file):
+    print(f'{designation:45} {symbole:<15} {valeur:>10} {"   "} {unite:<10}', file=file)
+
+def printsepfile(f):
+    print("-"*77, file=f)
