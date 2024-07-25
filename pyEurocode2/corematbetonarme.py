@@ -3,9 +3,9 @@ from math import *
 from rich.table import Table
 from rich.console import Console
 
-from coreconstante import *
-from coresituationprojet import *
-from utilsprint import *
+from pyEurocode2.coreconstante import *
+from pyEurocode2.coresituationprojet import *
+from pyEurocode2.utilsprint import *
 
 
 class BetonArme:

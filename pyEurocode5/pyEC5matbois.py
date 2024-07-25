@@ -5,8 +5,8 @@ import pandas as pd
 
 @dataclass
 class Bois:
-    nature_bois : str
-    classe_resistance_bois : str
+    nature_bois : str  # résineux, feuillus, LVL
+    classe_resistance_bois : str # C24, GL24h etc.
     
     
     def f_m_k(self):
@@ -75,4 +75,4 @@ class Bois:
     
     def rho_mean(self):
         df = pd.read_excel(r"D:\pypyBABA\pyEurocode5\pyEC5_bdd_caracteristique_bois.xlsx", sheet_name='Feuil1', index_col="Symbole")
-        return df.at['rho_mean', self.claclasse_resistance_boissse_bois]    
+        return df.at['rho_mean', self.classe_resistance_bois]    

@@ -1,6 +1,6 @@
 from rich.table import Table
 from rich.console import Console
-from coreconstante import *
+from pyEurocode2.coreconstante import *
 
 class SituationProjet:
 
